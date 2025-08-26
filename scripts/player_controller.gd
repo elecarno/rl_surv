@@ -49,7 +49,7 @@ func _physics_process(delta):
 	
 	# movement direction
 	var input_dir
-	if !player_stats.hp <= 0:
+	if !player_stats.energy <= 0:
 		input_dir = Input.get_vector("mov_left", "mov_right", "mov_forward", "mov_backward")
 	else:
 		input_dir = Vector2(0, 0)
@@ -60,7 +60,7 @@ func _physics_process(delta):
 		velocity.y -= gravity * delta
 		
 	# handle death
-	if player_stats.hp <= 0:
+	if player_stats.energy <= 0:
 		col.shape.height = 0.1
 		cam.rotation.z = lerp(cam.rotation.z, deg_to_rad(90), delta * 2.0)
 		velocity.x = lerp(velocity.x, direction.x, delta * 3.0)

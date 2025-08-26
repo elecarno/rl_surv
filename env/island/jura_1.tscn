@@ -1,0 +1,16 @@
+[gd_scene load_steps=5 format=3 uid="uid://do5llqxj2goeq"]
+
+[ext_resource type="PackedScene" uid="uid://cj67io7xtyhhh" path="res://env/island/jura_1.blend" id="1_64g7a"]
+[ext_resource type="Texture2D" uid="uid://veb4boncx116" path="res://env/tex/forest_ground.png" id="2_dwn72"]
+[ext_resource type="Texture2D" uid="uid://1liigotagenv" path="res://env/tex/forest_ground_n.png" id="3_c557n"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o6424"]
+albedo_texture = ExtResource("2_dwn72")
+normal_enabled = true
+normal_texture = ExtResource("3_c557n")
+texture_filter = 0
+
+[node name="jura_1" instance=ExtResource("1_64g7a")]
+
+[node name="terrain-20586" parent="." index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_o6424")
