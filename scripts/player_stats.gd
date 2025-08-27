@@ -8,10 +8,17 @@ var STAMINA_REGEN: float = 0.1
 var STAMINA_DRAIN: float = 0.15
 var can_sprint: bool = true
 
+# stats drain per tick
 var water: float = 1.0
+var WATER_DRAIN: float = 0.002315 # 3 days still, 6hrs moving
 var energy: float = 1.0
+var ENERGY_DRAIN: float = 0.000992 # 7 days still, 3 days moving
 var nutrition: float = 1.0
+var NUTRITION_DRAIN: float = 0.00278 # 2.5 days still, 5hrs moving
 var morale: float = 1.0
+var MORALE_DRAIN: float = 0.00386 # 1.8 days still
+
+var current_tick
 
 # body parts
 var body: Dictionary = {
@@ -47,12 +54,25 @@ var body: Dictionary = {
 	"temp_r_foot": 18.0
 }
 
+func _ready() -> void:
+	current_tick = world.tick
+
 func _process(delta):
 	if Input.is_action_pressed("mov_sprint") and can_sprint:
 		stamina -= STAMINA_DRAIN * delta
 	else:
 		if stamina < 1.0:
 			stamina += STAMINA_REGEN * delta
+			
+	if current_tick != world.tick:
+		drain_stats()
+		current_tick = world.tick
+	
+func drain_stats():
+	water -= WATER_DRAIN
+	energy -= ENERGY_DRAIN
+	nutrition -= NUTRITION_DRAIN
+	morale -= MORALE_DRAIN
 			
 func take_damage(damage: float):
 	pass

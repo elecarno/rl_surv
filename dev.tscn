@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://7s4vqu4r4ya8"]
+[gd_scene load_steps=22 format=3 uid="uid://7s4vqu4r4ya8"]
 
 [ext_resource type="PackedScene" uid="uid://brrjkso5tn5px" path="res://player.tscn" id="1_5p5gi"]
 [ext_resource type="Texture2D" uid="uid://veb4boncx116" path="res://env/tex/forest_ground.png" id="2_u0w26"]
@@ -57,21 +57,6 @@ texture_filter = 0
 data = PackedVector3Array(50, 0, 50, -50, 0, 50, 50, 0, -50, -50, 0, 50, -50, 0, -50, 50, 0, -50)
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_cvhay"]
-
-[sub_resource type="Gradient" id="Gradient_o8iqi"]
-colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 0)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_3rghg"]
-gradient = SubResource("Gradient_o8iqi")
-width = 1
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_xl4ch"]
-gradient = SubResource("Gradient_o8iqi")
-width = 1
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_dmhwf"]
-gradient = SubResource("Gradient_o8iqi")
-width = 1
 
 [node name="map" type="Node3D"]
 
@@ -289,7 +274,6 @@ data = {
 [node name="ui" type="CanvasLayer" parent="."]
 
 [node name="hud" type="Control" parent="ui"]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -301,72 +285,327 @@ script = ExtResource("28_e4ey4")
 
 [node name="status" type="Control" parent="ui/hud"]
 layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 7.0
-offset_top = -66.0
-offset_right = 135.0
-offset_bottom = -7.0
-grow_vertical = 0
+anchors_preset = 0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 133.0
+offset_bottom = 64.0
 mouse_filter = 1
 
-[node name="hp_bar" type="HSlider" parent="ui/hud/status"]
-self_modulate = Color(0.811765, 0, 0.14902, 1)
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -22.0
-offset_bottom = -14.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_constants/center_grabber = 0
-theme_override_icons/grabber = SubResource("GradientTexture1D_3rghg")
-theme_override_icons/grabber_highlight = SubResource("GradientTexture1D_xl4ch")
-theme_override_icons/grabber_disabled = SubResource("GradientTexture1D_dmhwf")
-value = 50.0
-editable = false
-scrollable = false
+[node name="meters" type="Label" parent="ui/hud/status"]
+layout_mode = 0
+offset_right = 178.0
+offset_bottom = 148.0
+scale = Vector2(0.5, 0.5)
+text = "water: 1.0
+energy: 1.0
+nutrition: 1.0
+morale: 1.0
+stamina: 1.0"
 
-[node name="stamina_bar" type="HSlider" parent="ui/hud/status"]
-self_modulate = Color(0.172549, 0.74902, 0.909804, 1)
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -33.0
-offset_bottom = -25.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_constants/center_grabber = 0
-theme_override_icons/grabber = SubResource("GradientTexture1D_3rghg")
-theme_override_icons/grabber_highlight = SubResource("GradientTexture1D_xl4ch")
-theme_override_icons/grabber_disabled = SubResource("GradientTexture1D_dmhwf")
-value = 50.0
-editable = false
-scrollable = false
+[node name="timestamp" type="Label" parent="ui/hud/status"]
+layout_mode = 0
+offset_top = 68.0
+offset_right = 178.0
+offset_bottom = 98.0
+scale = Vector2(0.5, 0.5)
+text = "Day 01, 00:00"
 
-[node name="mana_bar" type="HSlider" parent="ui/hud/status"]
-self_modulate = Color(0.431373, 0.203922, 1, 1)
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -11.0
-offset_bottom = -3.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_constants/center_grabber = 0
-theme_override_icons/grabber = SubResource("GradientTexture1D_3rghg")
-theme_override_icons/grabber_highlight = SubResource("GradientTexture1D_xl4ch")
-theme_override_icons/grabber_disabled = SubResource("GradientTexture1D_dmhwf")
-value = 50.0
-editable = false
-scrollable = false
+[node name="conditions" type="Label" parent="ui/hud/status"]
+layout_mode = 0
+offset_top = 83.0
+offset_right = 178.0
+offset_bottom = 113.0
+scale = Vector2(0.5, 0.5)
+text = "temp_sea: 0
+temp_alt: 0
+
+weather: clear
+
+wind_speed: 0
+wind_dir: 0"
+
+[node name="body" type="Control" parent="ui/hud"]
+anchors_preset = 0
+offset_left = 2.0
+offset_top = 224.0
+offset_right = 119.0
+offset_bottom = 361.0
+
+[node name="hp_head" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 6.0
+offset_right = 93.0
+offset_bottom = 38.0
+scale = Vector2(0.5, 0.5)
+text = "1.0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="hp_torso_upper" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 36.0
+offset_right = 93.0
+offset_bottom = 68.0
+scale = Vector2(0.5, 0.5)
+text = "1.0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="hp_torso_lower" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 56.0
+offset_right = 93.0
+offset_bottom = 88.0
+scale = Vector2(0.5, 0.5)
+text = "1.0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="temp_head" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 19.0
+offset_right = 93.0
+offset_bottom = 51.0
+scale = Vector2(0.5, 0.5)
+text = "15C"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="temp_torso" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 46.0
+offset_right = 93.0
+offset_bottom = 78.0
+scale = Vector2(0.5, 0.5)
+text = "15C"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="hp_r_arm_upper" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 36.0
+offset_right = 57.0
+offset_bottom = 68.0
+scale = Vector2(0.5, 0.5)
+text = "1.0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="hp_r_arm_lower" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 56.0
+offset_right = 57.0
+offset_bottom = 88.0
+scale = Vector2(0.5, 0.5)
+text = "1.0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="temp_r_arm" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 46.0
+offset_right = 57.0
+offset_bottom = 78.0
+scale = Vector2(0.5, 0.5)
+text = "15C"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="hp_r_hand" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 72.0
+offset_right = 57.0
+offset_bottom = 104.0
+scale = Vector2(0.5, 0.5)
+text = "1.0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="temp_r_hand" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 82.0
+offset_right = 57.0
+offset_bottom = 114.0
+scale = Vector2(0.5, 0.5)
+text = "15C"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="hp_l_arm_upper" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 78.0
+offset_top = 36.0
+offset_right = 126.0
+offset_bottom = 68.0
+scale = Vector2(0.5, 0.5)
+text = "1.0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="hp_l_arm_lower" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 78.0
+offset_top = 56.0
+offset_right = 126.0
+offset_bottom = 88.0
+scale = Vector2(0.5, 0.5)
+text = "1.0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="temp_l_arm" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 78.0
+offset_top = 46.0
+offset_right = 126.0
+offset_bottom = 78.0
+scale = Vector2(0.5, 0.5)
+text = "15C"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="hp_l_hand" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 78.0
+offset_top = 72.0
+offset_right = 126.0
+offset_bottom = 104.0
+scale = Vector2(0.5, 0.5)
+text = "1.0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="temp_l_hand" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 78.0
+offset_top = 82.0
+offset_right = 126.0
+offset_bottom = 114.0
+scale = Vector2(0.5, 0.5)
+text = "15C"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="hp_r_leg_upper" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 70.0
+offset_right = 80.0
+offset_bottom = 102.0
+scale = Vector2(0.5, 0.5)
+text = "1.0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="hp_r_leg_lower" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 90.0
+offset_right = 80.0
+offset_bottom = 122.0
+scale = Vector2(0.5, 0.5)
+text = "1.0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="temp_r_leg" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 80.0
+offset_right = 80.0
+offset_bottom = 112.0
+scale = Vector2(0.5, 0.5)
+text = "15C"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="hp_r_foot" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 106.0
+offset_right = 80.0
+offset_bottom = 138.0
+scale = Vector2(0.5, 0.5)
+text = "1.0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="temp_r_foot" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 116.0
+offset_right = 80.0
+offset_bottom = 148.0
+scale = Vector2(0.5, 0.5)
+text = "15C"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="hp_l_leg_upper" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 70.0
+offset_right = 104.0
+offset_bottom = 102.0
+scale = Vector2(0.5, 0.5)
+text = "1.0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="hp_l_leg_lower" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 90.0
+offset_right = 104.0
+offset_bottom = 122.0
+scale = Vector2(0.5, 0.5)
+text = "1.0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="temp_l_leg" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 80.0
+offset_right = 104.0
+offset_bottom = 112.0
+scale = Vector2(0.5, 0.5)
+text = "15C"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="hp_l_foot" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 106.0
+offset_right = 104.0
+offset_bottom = 138.0
+scale = Vector2(0.5, 0.5)
+text = "1.0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="temp_l_foot" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 116.0
+offset_right = 104.0
+offset_bottom = 148.0
+scale = Vector2(0.5, 0.5)
+text = "15C"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="finished" from="amb_night" to="amb_night" method="_on_finished"]
 [connection signal="finished" from="campfire/sfx" to="campfire/sfx" method="_on_finished"]

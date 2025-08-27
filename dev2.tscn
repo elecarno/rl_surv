@@ -25,7 +25,7 @@ ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
 sky_material = SubResource("ProceduralSkyMaterial_7rkms")
 
 [sub_resource type="Environment" id="Environment_x7rq2"]
-background_mode = 1
+background_mode = 2
 background_color = Color(0.301737, 0.44456, 0.429082, 1)
 sky = SubResource("Sky_j185m")
 ambient_light_source = 2
@@ -92,16 +92,14 @@ use_collision = true
 size = Vector3(2, 2, 2)
 
 [node name="sun" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.460165, -0.799218, 0.38665, -0.176038, 0.508986, 0.842582, -0.870206, 0.319661, -0.37491, 0, 4, 0)
-light_color = Color(0.34902, 0.321569, 0.321569, 1)
-light_energy = 0.5
+transform = Transform3D(-0.30603, -0.658721, -0.687337, 0.884098, -0.464458, 0.0514851, -0.353153, -0.591917, 0.724512, 0, 4, 0)
 shadow_enabled = true
 
 [node name="env" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_x7rq2")
 
 [node name="player" parent="." instance=ExtResource("1_1bb7y")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.08037)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.08)
 
 [node name="amb_night" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("2_nwdnr")

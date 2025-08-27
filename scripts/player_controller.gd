@@ -47,6 +47,9 @@ func _physics_process(delta):
 		else:
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	
+	# send height to world for temperature calculation
+	world.player_alt = position.y
+	
 	# movement direction
 	var input_dir
 	if !player_stats.energy <= 0:

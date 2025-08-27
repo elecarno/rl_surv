@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://hidn80biwf12"]
+
+[ext_resource type="Script" path="res://scripts/day_cycle.gd" id="1_dptxg"]
+[ext_resource type="Material" uid="uid://cwvvspwca3u0v" path="res://env/sky.tres" id="2_py8sg"]
+
+[sub_resource type="Sky" id="Sky_j185m"]
+sky_material = ExtResource("2_py8sg")
+
+[sub_resource type="Environment" id="Environment_lc2bm"]
+background_mode = 2
+background_color = Color(0.714761, 0.819219, 0.880671, 1)
+sky = SubResource("Sky_j185m")
+ambient_light_source = 3
+reflected_light_source = 1
+tonemap_mode = 3
+ssao_enabled = true
+ssil_enabled = true
+ssil_intensity = 1.5
+glow_enabled = true
+fog_enabled = true
+fog_density = 0.0002
+fog_aerial_perspective = 0.591
+volumetric_fog_density = 0.0075
+volumetric_fog_albedo = Color(0.907942, 0.907942, 0.907942, 1)
+
+[node name="sky" type="Node3D"]
+script = ExtResource("1_dptxg")
+
+[node name="env" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_lc2bm")
+
+[node name="sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-3.25619e-08, 0.667144, -0.744929, 2.91618e-08, 0.744929, 0.667144, 1, 5.32907e-15, -4.37114e-08, 0, 1442.74, 0)
+shadow_enabled = true
+sky_mode = 2
+
+[node name="moon" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.937081, 0.0260703, -0.348137, 0.11341, 0.920392, 0.374189, 0.330178, -0.390128, 0.859525, 0, 2884.03, -64.7931)
+shadow_enabled = true
+sky_mode = 2

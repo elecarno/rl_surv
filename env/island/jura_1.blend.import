@@ -3,7 +3,7 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://cj67io7xtyhhh"
+uid="uid://dqvayuk6tm7oo"
 path="res://.godot/imported/jura_1.blend-efa195836ee79571a8239df742b529f4.scn"
 
 [deps]
@@ -32,17 +32,6 @@ animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path=""
 _subresources={
-"meshes": {
-"jura_1_terrain-20586": {
-"generate/lightmap_uv": 0,
-"generate/lods": 1,
-"generate/shadow_meshes": 0,
-"lods/normal_merge_angle": 60.0,
-"lods/normal_split_angle": 25.0,
-"save_to_file/enabled": false,
-"save_to_file/path": ""
-}
-},
 "nodes": {
 "PATH:terrain-20586": {
 "generate/physics": true
