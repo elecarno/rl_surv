@@ -4,8 +4,8 @@ extends Node3D
 # Temperatures are in degrees celsius where 0 = freezing (0C)
 
 var stamina: float = 1.0
-var STAMINA_REGEN: float = 0.1
-var STAMINA_DRAIN: float = 0.15
+var STAMINA_REGEN: float = 0.08
+var STAMINA_DRAIN: float = 0.1
 var can_sprint: bool = true
 
 # stats drain per tick
