@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://bajuib34ponrk"]
+
+[ext_resource type="Script" path="res://scripts/interactables/pickup.gd" id="1_84vln"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_vw132"]
+size = Vector3(0.15, 0.15, 0.15)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_emx45"]
+size = Vector3(0.15, 0.15, 0.15)
+
+[node name="pickup" type="RigidBody3D"]
+script = ExtResource("1_84vln")
+
+[node name="mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_vw132")
+
+[node name="col" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_emx45")

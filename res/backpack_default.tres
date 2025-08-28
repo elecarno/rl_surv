@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Backpack" load_steps=6 format=3 uid="uid://bvopyhqxddb7m"]
+
+[ext_resource type="Script" path="res://scripts/res/res_item.gd" id="1_qf16l"]
+[ext_resource type="Resource" uid="uid://dt4sgw17iq3qg" path="res://res/items/tent.tres" id="2_gxxea"]
+[ext_resource type="Script" path="res://scripts/res/backpack_res.gd" id="2_lcp0w"]
+[ext_resource type="Resource" uid="uid://8tidsgk6ynvp" path="res://res/items/sleeping_bag.tres" id="3_8i2up"]
+[ext_resource type="Resource" uid="uid://c7d5n28w43qmv" path="res://res/items/cheese.tres" id="5_1sy20"]
+
+[resource]
+script = ExtResource("2_lcp0w")
+main = Array[ExtResource("1_qf16l")]([ExtResource("2_gxxea"), ExtResource("3_8i2up")])
+top = Array[ExtResource("1_qf16l")]([ExtResource("5_1sy20")])

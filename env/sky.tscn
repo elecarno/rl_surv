@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://hidn80biwf12"]
 
-[ext_resource type="Script" path="res://scripts/day_cycle.gd" id="1_dptxg"]
+[ext_resource type="Script" path="res://scripts/env/day_cycle.gd" id="1_dptxg"]
 [ext_resource type="Material" uid="uid://cwvvspwca3u0v" path="res://env/sky.tres" id="2_py8sg"]
 
 [sub_resource type="Sky" id="Sky_j185m"]

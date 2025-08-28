@@ -1,0 +1,68 @@
+[gd_scene load_steps=8 format=3 uid="uid://b6bacdt1o8nfv"]
+
+[ext_resource type="Script" path="res://scripts/interactables/backpack.gd" id="1_1g44v"]
+[ext_resource type="Script" path="res://scripts/interactables/backpack_pocket.gd" id="2_fpxnk"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_k7xdm"]
+size = Vector3(0.6, 1.5, 0.6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_m1fbg"]
+size = Vector3(0.5, 1, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g3n7i"]
+size = Vector3(0.5, 0.3, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_luw88"]
+size = Vector3(0.5, 1, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_w3d6b"]
+size = Vector3(0.5, 0.3, 0.5)
+
+[node name="backpack" type="StaticBody3D"]
+collision_layer = 4
+collision_mask = 4
+script = ExtResource("1_1g44v")
+prompt_message = "Pickup Backpack"
+type = "backpack"
+
+[node name="interact_col" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+shape = SubResource("BoxShape3D_k7xdm")
+
+[node name="interface" type="Node3D" parent="."]
+
+[node name="main" type="Area3D" parent="interface"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+collision_layer = 8
+collision_mask = 8
+script = ExtResource("2_fpxnk")
+section = "main"
+prompt_message = "Extract from Main"
+type = "pocket"
+
+[node name="col" type="CollisionShape3D" parent="interface/main"]
+shape = SubResource("BoxShape3D_m1fbg")
+
+[node name="top" type="Area3D" parent="interface"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+collision_layer = 8
+collision_mask = 8
+script = ExtResource("2_fpxnk")
+section = "top"
+prompt_message = "Extract from Top"
+type = "pocket"
+
+[node name="col" type="CollisionShape3D" parent="interface/top"]
+shape = SubResource("BoxShape3D_g3n7i")
+
+[node name="meshes" type="Node3D" parent="."]
+
+[node name="mesh" type="MeshInstance3D" parent="meshes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_luw88")
+skeleton = NodePath("../..")
+
+[node name="mesh2" type="MeshInstance3D" parent="meshes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+mesh = SubResource("BoxMesh_w3d6b")
+skeleton = NodePath("../..")

@@ -1,0 +1,612 @@
+[gd_scene load_steps=22 format=3 uid="uid://7s4vqu4r4ya8"]
+
+[ext_resource type="PackedScene" uid="uid://brrjkso5tn5px" path="res://prefabs/player.tscn" id="1_5p5gi"]
+[ext_resource type="Texture2D" uid="uid://veb4boncx116" path="res://env/tex/forest_ground.png" id="2_u0w26"]
+[ext_resource type="Texture2D" uid="uid://1liigotagenv" path="res://env/tex/forest_ground_n.png" id="3_eqxyw"]
+[ext_resource type="MeshLibrary" uid="uid://2evfbb8r7n0e" path="res://env/mesh_libs/tree_1_mesh.tres" id="4_d7mqc"]
+[ext_resource type="MeshLibrary" uid="uid://croltdx2hg8bs" path="res://env/mesh_libs/grass_1_mesh.tres" id="5_m8g4i"]
+[ext_resource type="PackedScene" uid="uid://dr3x8e0hfdirv" path="res://env/prefabs/campfire.tscn" id="6_4rovt"]
+[ext_resource type="Script" path="res://scripts/env/audio_loop.gd" id="10_8xlbf"]
+[ext_resource type="AudioStream" uid="uid://bdc2gmb8foh3g" path="res://sound/ambience/Ambiance_Night_Loop_Stereo.wav" id="14_kd2dl"]
+[ext_resource type="AudioStream" uid="uid://cb87sgw4iol3v" path="res://sound/environment/Ambiance_Firecamp_Small_Loop_Mono.wav" id="16_ddq3j"]
+[ext_resource type="Script" path="res://scripts/player/damage_area.gd" id="26_lsbuq"]
+[ext_resource type="Script" path="res://scripts/player/player_hud.gd" id="28_e4ey4"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bgima"]
+albedo_color = Color(0.552941, 0.552941, 0.552941, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ipxnk"]
+albedo_color = Color(0.188235, 0.572549, 0.733333, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ja7k8"]
+albedo_color = Color(0.815686, 0.305882, 0.380392, 1)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_7rkms"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_j185m"]
+sky_material = SubResource("ProceduralSkyMaterial_7rkms")
+
+[sub_resource type="Environment" id="Environment_lc2bm"]
+background_mode = 1
+sky = SubResource("Sky_j185m")
+ambient_light_source = 2
+ambient_light_color = Color(0.141176, 0, 0.0235294, 1)
+tonemap_mode = 2
+ssil_enabled = true
+ssil_intensity = 1.5
+glow_enabled = true
+fog_enabled = true
+fog_light_color = Color(0.0392157, 0.0117647, 0.0117647, 1)
+volumetric_fog_enabled = true
+volumetric_fog_albedo = Color(0.439216, 0.113725, 0.211765, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_txu83"]
+size = Vector2(100, 100)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_me6in"]
+albedo_texture = ExtResource("2_u0w26")
+metallic_specular = 0.0
+normal_enabled = true
+normal_texture = ExtResource("3_eqxyw")
+uv1_scale = Vector3(25, 25, 25)
+texture_filter = 0
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_lr83v"]
+data = PackedVector3Array(50, 0, 50, -50, 0, 50, 50, 0, -50, -50, 0, 50, -50, 0, -50, 50, 0, -50)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_cvhay"]
+
+[node name="map" type="Node3D"]
+
+[node name="dev_env" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -17, 0)
+visible = false
+material_override = SubResource("StandardMaterial3D_bgima")
+use_collision = true
+size = Vector3(32, 0.001, 32)
+
+[node name="wall" type="CSGBox3D" parent="dev_env"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.5, 1.9995, 0)
+material_override = SubResource("StandardMaterial3D_bgima")
+use_collision = true
+size = Vector3(1, 4, 32)
+
+[node name="wall2" type="CSGBox3D" parent="dev_env"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.5, 1.9995, 0)
+material_override = SubResource("StandardMaterial3D_bgima")
+use_collision = true
+size = Vector3(1, 4, 32)
+
+[node name="wall3" type="CSGBox3D" parent="dev_env"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 6.77527e-07, 1.9995, 15.5)
+material_override = SubResource("StandardMaterial3D_bgima")
+use_collision = true
+size = Vector3(1, 4, 32)
+
+[node name="wall4" type="CSGBox3D" parent="dev_env"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -6.77527e-07, 1.9995, -15.5)
+material_override = SubResource("StandardMaterial3D_bgima")
+use_collision = true
+size = Vector3(1, 4, 32)
+
+[node name="box" type="CSGBox3D" parent="dev_env"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.6595, 0.5, 8.6595)
+material_override = SubResource("StandardMaterial3D_ipxnk")
+use_collision = true
+
+[node name="box2" type="CSGBox3D" parent="dev_env"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.6595, 1, 8.6595)
+material_override = SubResource("StandardMaterial3D_ja7k8")
+use_collision = true
+size = Vector3(2, 2, 2)
+
+[node name="box3" type="CSGBox3D" parent="dev_env"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.6595, 0.5, 5.6595)
+material_override = SubResource("StandardMaterial3D_ipxnk")
+use_collision = true
+
+[node name="box4" type="CSGBox3D" parent="dev_env"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 9.21695, 1, 5.6595)
+material_override = SubResource("StandardMaterial3D_ja7k8")
+use_collision = true
+size = Vector3(2, 2, 2)
+
+[node name="sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.460165, -0.799218, 0.38665, -0.176038, 0.508986, 0.842582, -0.870206, 0.319661, -0.37491, 0, 4, 0)
+light_color = Color(0.34902, 0.321569, 0.321569, 1)
+light_energy = 0.5
+shadow_enabled = true
+
+[node name="env" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_lc2bm")
+
+[node name="player" parent="." instance=ExtResource("1_5p5gi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.08037)
+
+[node name="amb_night" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("14_kd2dl")
+autoplay = true
+panning_strength = 0.0
+bus = &"Reverb"
+script = ExtResource("10_8xlbf")
+
+[node name="ground" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_txu83")
+surface_material_override/0 = SubResource("StandardMaterial3D_me6in")
+
+[node name="static" type="StaticBody3D" parent="ground"]
+
+[node name="col" type="CollisionShape3D" parent="ground/static"]
+shape = SubResource("ConcavePolygonShape3D_lr83v")
+
+[node name="ground3" type="MeshInstance3D" parent="ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -100, 0, 0)
+mesh = SubResource("PlaneMesh_txu83")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_me6in")
+
+[node name="static" type="StaticBody3D" parent="ground/ground3"]
+
+[node name="col" type="CollisionShape3D" parent="ground/ground3/static"]
+shape = SubResource("ConcavePolygonShape3D_lr83v")
+
+[node name="ground2" type="MeshInstance3D" parent="ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100, 0, 0)
+mesh = SubResource("PlaneMesh_txu83")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_me6in")
+
+[node name="static" type="StaticBody3D" parent="ground/ground2"]
+
+[node name="col" type="CollisionShape3D" parent="ground/ground2/static"]
+shape = SubResource("ConcavePolygonShape3D_lr83v")
+
+[node name="ground4" type="MeshInstance3D" parent="ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 100)
+mesh = SubResource("PlaneMesh_txu83")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_me6in")
+
+[node name="static" type="StaticBody3D" parent="ground/ground4"]
+
+[node name="col" type="CollisionShape3D" parent="ground/ground4/static"]
+shape = SubResource("ConcavePolygonShape3D_lr83v")
+
+[node name="ground5" type="MeshInstance3D" parent="ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -100, 0, 100)
+mesh = SubResource("PlaneMesh_txu83")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_me6in")
+
+[node name="static" type="StaticBody3D" parent="ground/ground5"]
+
+[node name="col" type="CollisionShape3D" parent="ground/ground5/static"]
+shape = SubResource("ConcavePolygonShape3D_lr83v")
+
+[node name="ground6" type="MeshInstance3D" parent="ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100, 0, 100)
+mesh = SubResource("PlaneMesh_txu83")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_me6in")
+
+[node name="static" type="StaticBody3D" parent="ground/ground6"]
+
+[node name="col" type="CollisionShape3D" parent="ground/ground6/static"]
+shape = SubResource("ConcavePolygonShape3D_lr83v")
+
+[node name="ground7" type="MeshInstance3D" parent="ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -100)
+mesh = SubResource("PlaneMesh_txu83")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_me6in")
+
+[node name="static" type="StaticBody3D" parent="ground/ground7"]
+
+[node name="col" type="CollisionShape3D" parent="ground/ground7/static"]
+shape = SubResource("ConcavePolygonShape3D_lr83v")
+
+[node name="ground8" type="MeshInstance3D" parent="ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -100, 0, -100)
+mesh = SubResource("PlaneMesh_txu83")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_me6in")
+
+[node name="static" type="StaticBody3D" parent="ground/ground8"]
+
+[node name="col" type="CollisionShape3D" parent="ground/ground8/static"]
+shape = SubResource("ConcavePolygonShape3D_lr83v")
+
+[node name="ground9" type="MeshInstance3D" parent="ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100, 0, -100)
+mesh = SubResource("PlaneMesh_txu83")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_me6in")
+
+[node name="static" type="StaticBody3D" parent="ground/ground9"]
+
+[node name="col" type="CollisionShape3D" parent="ground/ground9/static"]
+shape = SubResource("ConcavePolygonShape3D_lr83v")
+
+[node name="campfire" parent="." instance=ExtResource("6_4rovt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.042583, 0)
+
+[node name="light" type="OmniLight3D" parent="campfire"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.543417, 0)
+light_color = Color(0.780392, 0.388235, 0.266667, 1)
+light_energy = 2.85
+omni_range = 3.0
+omni_attenuation = 1.30625
+
+[node name="sfx" type="AudioStreamPlayer3D" parent="campfire"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.042583, 0)
+stream = ExtResource("16_ddq3j")
+volume_db = -6.0
+autoplay = true
+bus = &"Reverb"
+script = ExtResource("10_8xlbf")
+
+[node name="damage_area" type="Area3D" parent="campfire"]
+script = ExtResource("26_lsbuq")
+
+[node name="col" type="CollisionShape3D" parent="campfire/damage_area"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.8, 0)
+shape = SubResource("CylinderShape3D_cvhay")
+
+[node name="trees" type="GridMap" parent="."]
+mesh_library = ExtResource("4_d7mqc")
+cell_size = Vector3(1, 2, 1)
+cell_center_y = false
+data = {
+"cells": PackedInt32Array(65529, 65529, 0, 65534, 65525, 0, 4, 65527, 0, 11, 65530, 0, 65525, 65533, 0, 65523, 3, 0, 65529, 7, 0, 65533, 11, 0, 2, 11, 0, 8, 9, 0, 13, 5, 0, 16, 65530, 0, 20, 65525, 0, 25, 65522, 0, 8, 65523, 0, 3, 65519, 0, 65529, 65517, 0, 65519, 65527, 0, 65523, 65521, 0, 65533, 65514, 0, 65530, 65523, 0, 65523, 65527, 0, 65516, 65535, 0, 65520, 65533, 0, 65520, 7, 0, 65517, 3, 0, 65525, 11, 0, 65521, 16, 0, 65531, 15, 0, 1, 15, 0, 6, 14, 0, 11, 16, 0, 14, 10, 0, 19, 6, 0, 14, 65523, 1048576, 10, 65517, 1048576, 3, 65513, 1048576, 65527, 65511, 1048576, 65522, 65515, 1048576, 65517, 65520, 1048576, 65514, 65525, 1048576, 65514, 65530, 1048576, 65509, 65535, 1048576, 65511, 5, 1048576, 65514, 10, 1048576, 65526, 20, 1048576, 65508, 14, 1048576, 65504, 20, 1048576, 65514, 17, 1048576, 65519, 23, 1048576, 65510, 65508, 0, 65506, 65511, 0, 65504, 65514, 0, 65502, 65517, 0, 65501, 65521, 0, 65500, 65524, 0, 65500, 65527, 0, 65499, 65533, 0, 65498, 65530, 0, 65498, 4, 0, 65496, 0, 0, 65500, 8, 0, 65497, 12, 0, 65498, 16, 0, 65497, 21, 0, 65500, 24, 0, 65503, 28, 0, 65506, 31, 0, 65511, 30, 0, 65515, 32, 0, 65519, 31, 0, 65522, 33, 0, 65533, 36, 0, 65525, 36, 0, 65529, 34, 0, 1, 34, 0, 5, 32, 0, 9, 35, 0, 12, 32, 0, 16, 30, 0, 19, 26, 0, 23, 25, 0, 27, 24, 0, 65514, 65505, 0, 65517, 65503, 0, 65521, 65504, 0, 65525, 65502, 0, 65528, 65500, 0, 65532, 65502, 0, 0, 65501, 0, 4, 65503, 0, 9, 65502, 0, 11, 65505, 0, 16, 65504, 0, 18, 65508, 0, 22, 65509, 0, 24, 65512, 0, 28, 65514, 0, 29, 65518, 0, 29, 65522, 0, 27, 5, 0, 32, 8, 0, 32, 7, 0, 30, 4, 0, 33, 12, 0, 31, 15, 0, 31, 19, 0, 29, 22, 0, 35, 5, 0, 39, 6, 0, 43, 5, 0, 47, 7, 0, 51, 11, 0, 47, 11, 0, 53, 14, 0, 56, 18, 0, 58, 22, 0, 59, 28, 0, 60, 25, 0, 32, 65522, 0, 36, 65521, 0, 40, 65521, 0, 44, 65523, 0, 47, 65526, 0, 50, 65526, 0, 53, 65527, 0, 56, 65527, 0, 59, 65528, 0, 61, 65530, 0, 61, 65534, 0, 64, 1, 0, 67, 4, 0, 67, 7, 0, 69, 9, 0, 71, 13, 0, 71, 16, 0, 70, 17, 0, 71, 23, 0, 73, 27, 0, 70, 20, 0, 73, 31, 0, 74, 37, 0, 71, 39, 0, 73, 35, 0, 69, 41, 0, 64, 41, 0, 66, 41, 0, 62, 39, 0, 60, 36, 0, 58, 31, 0, 59, 33, 0, 39, 12, 0, 42, 15, 0, 38, 18, 0, 45, 18, 0, 45, 24, 0, 40, 23, 0, 51, 22, 0, 53, 29, 0, 46, 29, 0, 48, 27, 0, 35, 29, 0, 35, 24, 0, 40, 28, 0, 30, 28, 0, 24, 33, 0, 33, 35, 0, 27, 30, 0, 24, 31, 0, 29, 33, 0, 27, 36, 0, 22, 35, 0, 20, 38, 0, 29, 40, 0, 31, 41, 0, 40, 34, 0, 41, 38, 0, 37, 37, 0, 40, 40, 0, 38, 41, 0, 47, 41, 0, 45, 35, 0, 49, 34, 0, 46, 37, 0, 49, 36, 0, 50, 36, 0, 51, 33, 0, 52, 33, 0, 52, 34, 0, 55, 37, 0, 49, 39, 0, 54, 43, 0, 55, 44, 0, 53, 45, 0, 54, 42, 0, 46, 44, 0, 37, 46, 0, 36, 44, 0, 31, 45, 0, 30, 45, 0, 26, 44, 0, 25, 43, 0, 22, 41, 0, 21, 41, 0, 20, 41, 0, 19, 41, 0, 18, 42, 0, 17, 42, 0, 15, 40, 0, 15, 39, 0, 8, 41, 0, 1, 41, 0, 65533, 43, 0, 6, 40, 0, 7, 46, 0, 16, 43, 0, 1, 40, 0, 65519, 40, 0, 65527, 42, 0, 65518, 44, 0, 65519, 44, 0, 65529, 40, 0, 65503, 36, 0, 65513, 34, 0, 65511, 38, 0, 65518, 38, 0, 65504, 42, 0, 65503, 31, 0, 65491, 33, 0, 65497, 29, 0, 65494, 23, 0, 65497, 35, 0, 65491, 22, 0, 65486, 24, 0, 65493, 15, 0, 65493, 14, 0, 65491, 11, 0, 65490, 11, 0, 65490, 10, 0, 65495, 8, 0, 65491, 5, 0, 65493, 1, 0, 65493, 0, 0, 65492, 0, 0, 65492, 65535, 0, 65491, 65532, 0, 65491, 65531, 0, 65493, 65529, 0, 65495, 65524, 0, 65490, 65522, 0, 65498, 65517, 0, 65495, 65514, 0, 65497, 65509, 0, 65498, 65509, 0, 65500, 65510, 0, 65490, 65511, 0, 65491, 65517, 0, 65504, 65504, 0, 65501, 65501, 0, 65508, 65496, 0, 65509, 65499, 0, 65518, 65497, 0, 65517, 65491, 0, 65512, 65497, 0, 65528, 65493, 0, 65522, 65495, 0, 65524, 65497, 0, 65535, 65494, 0, 65532, 65497, 0, 9, 65495, 0, 5, 65495, 0, 4, 65497, 0, 13, 65498, 0, 22, 65498, 0, 22, 65501, 0, 17, 65494, 0, 27, 65507, 0, 37, 65505, 0, 27, 65499, 0, 31, 65510, 0, 36, 65509, 0, 33, 65515, 0, 31, 65504, 0, 43, 65515, 0, 39, 65517, 0, 47, 65514, 0, 49, 65520, 0, 54, 65520, 0, 57, 65522, 0, 63, 65523, 0, 67, 65525, 0, 68, 65529, 0, 72, 65531, 0, 68, 65534, 0, 73, 1, 0, 74, 1, 0, 78, 5, 0, 77, 6, 0, 76, 6, 0, 76, 7, 0, 74, 9, 0, 76, 10, 0, 81, 15, 0, 78, 18, 0, 81, 19, 0, 74, 18, 0, 76, 26, 0, 82, 25, 0, 77, 24, 0, 80, 29, 0, 78, 33, 0, 83, 37, 0, 77, 42, 0, 77, 45, 0, 62, 47, 0, 64, 45, 0, 68, 47, 0, 57, 51, 0, 73, 47, 0, 75, 53, 0, 75, 52, 0, 64, 52, 0, 55, 52, 0, 42, 51, 0, 49, 46, 0, 50, 49, 0, 40, 49, 0, 31, 52, 0, 29, 49, 0, 22, 51, 0, 16, 50, 0, 16, 49, 0, 21, 48, 0, 10, 50, 0, 65532, 52, 0, 4, 48, 0, 65523, 48, 0, 65531, 49, 0, 0, 48, 0, 1, 48, 0, 2, 51, 0, 11, 44, 0, 65511, 47, 0, 65512, 43, 0, 65516, 49, 0, 65500, 49, 0, 65491, 40, 0, 65501, 41, 0, 65494, 44, 0, 47, 65498, 0, 44, 65508, 0, 52, 65509, 0, 56, 65511, 0, 56, 65512, 0, 57, 65512, 0, 52, 65515, 0, 61, 65516, 0, 62, 65516, 0, 63, 65512, 0, 68, 65521, 0, 69, 65521, 0, 70, 65520, 0, 79, 65529, 0, 81, 65527, 0, 18, 20, 0, 23, 12, 0, 22, 11, 0, 23, 17, 0, 18, 16, 0, 18, 15, 0, 14, 21, 0, 65535, 26, 0, 6, 27, 0, 7, 27, 0, 5, 22, 0, 65535, 22, 0, 8, 21, 0, 10, 25, 0, 65522, 27, 0, 65529, 24, 0, 65528, 27, 0, 65512, 25, 0, 65506, 27, 0, 65511, 22, 0, 65507, 18, 0, 65502, 14, 0, 65506, 10, 0, 65510, 6, 0, 65500, 2, 0, 65505, 65531, 0, 65508, 65521, 0, 65508, 65517, 0, 65513, 65520, 0, 65510, 65526, 0, 65515, 65516, 0, 65515, 65512, 0, 65521, 65511, 0, 65523, 65507, 0, 65532, 65510, 0, 2, 65507, 0, 8, 65511, 0, 13, 65511, 0, 15, 65516, 0, 20, 65515, 0, 21, 65518, 0, 89, 30, 0, 88, 13, 0, 82, 8, 0, 86, 3, 0, 86, 2, 0, 81, 65532, 0)
+}
+metadata/_editor_floor_ = Vector3(0, 0, 0)
+
+[node name="foliage" type="GridMap" parent="."]
+mesh_library = ExtResource("5_m8g4i")
+cell_size = Vector3(1, 2, 1)
+cell_center_y = false
+data = {
+"cells": PackedInt32Array(65527, 65535, 0, 65527, 65534, 0, 65528, 65533, 0, 65529, 65533, 0, 65529, 65532, 0, 65529, 65531, 0, 65529, 65530, 0, 65530, 65530, 0, 65531, 65530, 0, 65533, 65530, 0, 65532, 65530, 0, 65532, 65529, 0, 65531, 65529, 0, 65532, 65531, 0, 65531, 65531, 0, 65530, 65531, 0, 65529, 5, 0, 65530, 5, 0, 65530, 6, 0, 65531, 6, 0, 65532, 7, 0, 65533, 7, 0, 65533, 8, 0, 65533, 9, 0, 65534, 9, 0, 65535, 9, 0, 0, 9, 0, 1, 9, 0, 1, 8, 0, 0, 8, 0, 65535, 8, 0, 65534, 8, 0, 65534, 7, 0, 65533, 6, 0, 65532, 6, 0, 65531, 5, 0, 3, 8, 0, 4, 8, 0, 5, 8, 0, 5, 7, 0, 6, 7, 0, 6, 6, 0, 7, 6, 0, 7, 5, 0, 8, 5, 0, 8, 4, 0, 3, 65528, 0, 3, 65529, 0, 4, 65529, 0, 5, 65529, 0, 6, 65529, 0, 6, 65530, 0, 7, 65530, 0, 9, 65532, 0, 10, 65532, 0, 9, 65533, 0, 7, 65531, 0, 5, 65530, 0, 4, 65530, 0, 65534, 65527, 0, 65535, 65527, 0, 0, 65527, 0, 0, 65526, 0, 1, 65525, 0, 1, 65524, 0, 1, 65526, 0, 1, 65527, 0, 65534, 65528, 0, 65535, 65528, 0, 6, 65527, 0, 7, 65528, 0, 8, 65528, 0, 9, 65528, 0, 9, 65529, 0, 10, 65529, 0, 10, 3, 0, 10, 4, 0, 9, 4, 0, 9, 5, 0, 9, 6, 0, 8, 6, 0, 16, 14, 0, 16, 15, 0, 15, 15, 0, 14, 16, 0, 7, 20, 0, 6, 20, 0, 5, 20, 0, 4, 20, 0, 3, 20, 0, 2, 20, 0, 1, 20, 0, 0, 19, 0, 65535, 19, 0, 65534, 19, 0, 65532, 19, 0, 65531, 19, 0, 65531, 18, 0, 65526, 17, 0, 65525, 17, 0, 65517, 9, 0, 65516, 9, 0, 65516, 8, 0, 65514, 5, 0, 65514, 4, 0, 65514, 3, 0, 65512, 0, 0, 65511, 65535, 0, 65510, 65534, 0, 65509, 65533, 0, 65509, 65531, 0, 65509, 65530, 0, 65508, 65529, 0, 65508, 65528, 0, 65508, 65527, 0, 65509, 65527, 0, 65509, 65526, 0, 65509, 65522, 0, 65509, 65521, 0, 65509, 65520, 0, 65509, 65519, 0, 65510, 65519, 0, 65513, 65517, 0, 65512, 65518, 0, 65511, 65518, 0, 65508, 65520, 0, 65507, 65521, 0, 65507, 65522, 0, 65507, 65523, 0, 65507, 65524, 0, 65507, 65525, 0, 65506, 65526, 0, 65504, 65527, 0, 65503, 65528, 0, 65503, 65529, 0, 65504, 65530, 0, 65504, 65531, 0, 65505, 65530, 0, 65506, 65528, 0, 65507, 65526, 0, 65508, 65525, 0, 65508, 65524, 0, 65508, 65523, 0, 65515, 65514, 0, 65516, 65514, 0, 65517, 65513, 0, 65519, 65512, 0, 65520, 65512, 0, 65522, 65511, 0, 65525, 65509, 0, 65526, 65508, 0, 65528, 65507, 0, 65530, 65507, 0, 65531, 65507, 0, 65532, 65507, 0, 65533, 65506, 0, 65535, 65506, 0, 0, 65507, 0, 1, 65507, 0, 3, 65508, 0, 4, 65508, 0, 5, 65509, 0, 7, 65510, 0, 8, 65510, 0, 9, 65510, 0, 10, 65511, 0, 11, 65511, 0, 14, 65514, 0, 15, 65514, 0, 15, 65515, 0, 63, 34, 0, 62, 34, 0, 62, 33, 0, 62, 32, 0, 62, 31, 0, 62, 30, 0, 63, 28, 0, 63, 27, 0, 63, 26, 0, 63, 24, 0, 62, 23, 0, 62, 22, 0, 60, 20, 0, 61, 19, 0, 60, 18, 0, 59, 17, 0, 59, 16, 0, 58, 15, 0, 58, 14, 0, 57, 14, 0, 56, 13, 0, 56, 12, 0, 55, 12, 0, 55, 11, 0, 54, 11, 0, 53, 10, 0, 53, 9, 0, 52, 9, 0, 52, 8, 0, 51, 8, 0, 51, 7, 0, 50, 6, 0, 50, 5, 0, 49, 5, 0, 49, 4, 0, 48, 4, 0, 48, 3, 0, 45, 2, 0, 44, 2, 0, 42, 2, 0, 42, 1, 0, 41, 1, 0, 38, 1, 0, 42, 65528, 0, 43, 65528, 0, 43, 65529, 0, 44, 65529, 0, 45, 65528, 0, 46, 65528, 0, 47, 65528, 0, 49, 65529, 0, 49, 65530, 0, 50, 65530, 0, 51, 65530, 0, 53, 65531, 0, 54, 65531, 0, 55, 65531, 0, 55, 65532, 0, 55, 65533, 0, 56, 65534, 0, 57, 65534, 0, 58, 65534, 0, 59, 65535, 0, 59, 1, 0, 59, 2, 0, 59, 3, 0, 60, 3, 0, 62, 4, 0, 62, 5, 0, 62, 6, 0, 63, 7, 0, 64, 7, 0, 65, 7, 0, 65, 9, 0, 65, 10, 0, 66, 11, 0, 66, 12, 0, 67, 13, 0, 67, 14, 0, 67, 15, 0, 67, 17, 0, 67, 18, 0, 67, 20, 0, 67, 21, 0, 67, 22, 0, 67, 23, 0, 68, 23, 0, 68, 24, 0, 69, 25, 0, 69, 26, 0, 68, 26, 0, 68, 27, 0, 70, 30, 0, 70, 31, 0, 70, 32, 0, 69, 32, 0, 69, 33, 0, 69, 36, 0, 69, 37, 0, 69, 38, 0, 41, 65531, 0, 42, 65531, 0, 43, 65531, 0, 44, 65531, 0, 44, 65530, 0, 45, 65531, 0, 46, 65531, 0, 47, 65532, 0, 36, 65535, 0, 37, 65535, 0, 38, 65535, 0, 39, 0, 0, 40, 1, 0, 41, 2, 0, 23, 3, 0, 23, 2, 0, 24, 1, 0, 25, 0, 0, 26, 1, 0, 27, 1, 0, 29, 1, 0, 30, 0, 0, 31, 0, 0, 21, 65529, 0, 22, 65528, 0, 23, 65527, 0, 24, 65527, 0, 25, 65528, 0, 26, 65528, 0, 27, 65528, 0, 28, 65527, 0, 29, 65527, 0, 30, 65526, 0, 32, 65526, 0, 33, 65526, 0, 34, 65526, 0, 34, 65527, 0, 25, 65530, 0, 25, 65529, 0, 26, 65529, 0, 27, 65530, 0, 28, 65530, 0, 29, 65530, 0, 30, 65530, 0, 31, 65529, 0, 32, 65529, 0, 32, 65530, 0, 11, 2, 0, 12, 2, 0, 13, 2, 0, 14, 1, 0, 15, 2, 0, 16, 2, 0, 17, 2, 0, 18, 1, 0, 19, 1, 0, 26, 3, 0, 26, 4, 0, 27, 4, 0, 27, 5, 0, 29, 12, 0, 28, 11, 0, 25, 10, 0, 23, 10, 0, 21, 10, 0, 20, 11, 0, 19, 11, 0, 20, 12, 0, 18, 17, 0, 17, 17, 0, 16, 17, 0, 15, 17, 0, 14, 17, 0, 13, 17, 0, 11, 20, 0, 12, 21, 0, 13, 21, 0, 15, 22, 0, 16, 22, 0, 22, 25, 0, 22, 26, 0, 21, 27, 0, 11, 32, 0, 14, 33, 0, 17, 33, 0, 19, 34, 0, 24, 27, 0, 25, 27, 0, 25, 26, 0, 27, 27, 0, 29, 27, 0, 31, 28, 0, 34, 28, 0, 35, 28, 0, 35, 27, 0, 36, 27, 0, 36, 26, 0, 42, 25, 0, 42, 24, 0, 42, 22, 0, 42, 21, 0, 41, 20, 0, 40, 19, 0, 40, 18, 0, 38, 17, 0, 37, 17, 0, 39, 16, 0, 40, 16, 0, 41, 16, 0, 43, 17, 0, 44, 18, 0, 38, 25, 0, 35, 25, 0, 32, 25, 0, 31, 25, 0, 30, 25, 0, 31, 27, 0, 32, 28, 0, 34, 30, 0, 37, 31, 0, 38, 31, 0, 38, 32, 0, 38, 33, 0, 40, 37, 0, 46, 36, 0, 47, 36, 0, 48, 36, 0, 49, 37, 0, 48, 38, 0, 46, 39, 0, 42, 40, 0, 38, 40, 0, 36, 41, 0, 35, 40, 0, 33, 40, 0, 31, 38, 0, 24, 32, 0, 22, 33, 0, 20, 34, 0, 18, 36, 0, 17, 37, 0, 16, 38, 0, 6, 36, 0, 6, 35, 0, 6, 34, 0, 6, 33, 0, 65533, 35, 0, 65531, 35, 0, 65532, 35, 0, 65526, 39, 0, 65526, 38, 0, 65526, 36, 0, 65526, 35, 0, 65526, 34, 0, 65525, 32, 0, 65525, 31, 0, 65525, 30, 0, 65524, 31, 0, 65523, 29, 0, 65523, 28, 0, 65523, 27, 0, 65524, 26, 0, 65523, 25, 0, 65522, 25, 0, 65521, 24, 0, 65520, 23, 0, 65511, 20, 0, 65509, 18, 0, 65507, 16, 0, 65505, 14, 0, 65504, 13, 0, 65503, 11, 0, 65502, 8, 0, 65503, 7, 0, 65506, 6, 0, 65508, 5, 0, 65510, 5, 0, 65507, 0, 0, 65506, 0, 0, 65504, 65534, 0, 65507, 65529, 0, 65510, 65528, 0, 65511, 65528, 0, 65511, 65527, 0, 65510, 65526, 0, 65501, 65522, 0, 65502, 65521, 0, 65503, 65520, 0, 65504, 65519, 0, 65505, 65519, 0, 65511, 65522, 0, 65511, 65521, 0, 65517, 65511, 0, 65518, 65510, 0, 65518, 65511, 0, 65522, 65513, 0, 65525, 65513, 0, 65529, 65510, 0, 65530, 65509, 0, 65531, 65508, 0, 65532, 65506, 0, 65533, 65505, 0, 2, 65509, 0, 4, 65511, 0, 5, 65512, 0, 15, 65506, 0, 16, 65506, 0, 17, 65505, 0, 18, 65504, 0, 19, 65505, 0, 20, 65506, 0, 21, 65508, 0, 23, 65509, 0, 24, 65510, 0, 25, 65511, 0, 26, 65512, 0, 27, 65513, 0, 29, 65513, 0, 30, 65514, 0, 26, 65509, 0, 23, 65507, 0, 19, 65506, 0, 14, 65505, 0, 11, 65505, 0, 9, 65506, 0, 14, 65509, 0, 18, 65510, 0, 21, 65511, 0, 22, 65512, 0, 21, 65513, 0, 21, 65514, 0, 21, 65515, 0, 27, 65508, 0, 28, 65508, 0, 28, 65509, 0, 29, 65510, 0, 30, 65512, 0, 31, 65514, 0, 33, 65516, 0, 34, 65517, 0, 42, 65512, 0, 43, 65511, 0, 45, 65510, 0, 46, 65509, 0, 46, 65508, 0, 47, 65508, 0, 48, 65512, 0, 33, 65503, 0, 31, 65502, 0, 24, 65500, 0, 20, 65500, 0, 17, 65501, 0, 16, 65502, 0, 15, 65503, 0, 14, 65504, 0, 2, 65506, 0, 65535, 65504, 0, 65532, 65503, 0, 65532, 65502, 0, 65533, 65501, 0, 65534, 65500, 0, 2, 65502, 0, 3, 65505, 0, 4, 65507, 0, 65534, 65509, 0, 65518, 65508, 0, 65519, 65509, 0, 65525, 65515, 0, 65522, 65517, 0, 65518, 65517, 0, 65515, 65517, 0, 65514, 65517, 0, 65513, 65515, 0, 65515, 65509, 0, 65523, 65506, 0, 65527, 65506, 0, 3, 65507, 0, 8, 65509, 0, 9, 65509, 0, 25, 65508, 0, 28, 65506, 0, 29, 65505, 0, 29, 65506, 0, 29, 65508, 0, 30, 65510, 0, 32, 65513, 0, 33, 65515, 0, 34, 65515, 0, 35, 65514, 0, 35, 65513, 0, 26, 65507, 0, 25, 65507, 0, 25, 65506, 0, 26, 65505, 0, 28, 65504, 0, 29, 65504, 0, 56, 65513, 0, 58, 65514, 0, 58, 65515, 0, 58, 65516, 0, 58, 65517, 0, 50, 65519, 0, 50, 65520, 0, 49, 65518, 0, 44, 65512, 0, 43, 65512, 0, 43, 65514, 0, 43, 65515, 0, 45, 65517, 0, 46, 65517, 0, 56, 65520, 0, 59, 65521, 0, 59, 65522, 0, 58, 65523, 0, 57, 65526, 0, 58, 65527, 0, 60, 65527, 0, 64, 65527, 0, 68, 65526, 0, 69, 65525, 0, 71, 65525, 0, 71, 65526, 0, 72, 65527, 0, 72, 65528, 0, 75, 65531, 0, 74, 65532, 0, 74, 65533, 0, 71, 65533, 0, 70, 65533, 0, 69, 65533, 0, 72, 0, 0, 72, 1, 0, 73, 2, 0, 73, 3, 0, 74, 4, 0, 75, 4, 0)
+}
+
+[node name="ui" type="CanvasLayer" parent="."]
+
+[node name="hud" type="Control" parent="ui"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("28_e4ey4")
+
+[node name="status" type="Control" parent="ui/hud"]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 133.0
+offset_bottom = 64.0
+mouse_filter = 1
+
+[node name="meters" type="Label" parent="ui/hud/status"]
+layout_mode = 0
+offset_right = 178.0
+offset_bottom = 148.0
+scale = Vector2(0.5, 0.5)
+text = "water: 1.0
+energy: 1.0
+nutrition: 1.0
+morale: 1.0
+stamina: 1.0"
+
+[node name="timestamp" type="Label" parent="ui/hud/status"]
+layout_mode = 0
+offset_top = 68.0
+offset_right = 178.0
+offset_bottom = 98.0
+scale = Vector2(0.5, 0.5)
+text = "Day 01, 00:00"
+
+[node name="conditions" type="Label" parent="ui/hud/status"]
+layout_mode = 0
+offset_top = 83.0
+offset_right = 178.0
+offset_bottom = 113.0
+scale = Vector2(0.5, 0.5)
+text = "temp_sea: 0
+temp_alt: 0
+
+weather: clear
+
+wind_speed: 0
+wind_dir: 0"
+
+[node name="body" type="Control" parent="ui/hud"]
+anchors_preset = 0
+offset_left = 2.0
+offset_top = 224.0
+offset_right = 119.0
+offset_bottom = 361.0
+
+[node name="hp_head" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 6.0
+offset_right = 93.0
+offset_bottom = 38.0
+scale = Vector2(0.5, 0.5)
+text = "1.0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="hp_torso_upper" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 36.0
+offset_right = 93.0
+offset_bottom = 68.0
+scale = Vector2(0.5, 0.5)
+text = "1.0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="hp_torso_lower" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 56.0
+offset_right = 93.0
+offset_bottom = 88.0
+scale = Vector2(0.5, 0.5)
+text = "1.0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="temp_head" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 19.0
+offset_right = 93.0
+offset_bottom = 51.0
+scale = Vector2(0.5, 0.5)
+text = "15C"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="temp_torso" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 46.0
+offset_right = 93.0
+offset_bottom = 78.0
+scale = Vector2(0.5, 0.5)
+text = "15C"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="hp_r_arm_upper" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 36.0
+offset_right = 57.0
+offset_bottom = 68.0
+scale = Vector2(0.5, 0.5)
+text = "1.0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="hp_r_arm_lower" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 56.0
+offset_right = 57.0
+offset_bottom = 88.0
+scale = Vector2(0.5, 0.5)
+text = "1.0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="temp_r_arm" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 46.0
+offset_right = 57.0
+offset_bottom = 78.0
+scale = Vector2(0.5, 0.5)
+text = "15C"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="hp_r_hand" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 72.0
+offset_right = 57.0
+offset_bottom = 104.0
+scale = Vector2(0.5, 0.5)
+text = "1.0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="temp_r_hand" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 82.0
+offset_right = 57.0
+offset_bottom = 114.0
+scale = Vector2(0.5, 0.5)
+text = "15C"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="hp_l_arm_upper" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 78.0
+offset_top = 36.0
+offset_right = 126.0
+offset_bottom = 68.0
+scale = Vector2(0.5, 0.5)
+text = "1.0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="hp_l_arm_lower" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 78.0
+offset_top = 56.0
+offset_right = 126.0
+offset_bottom = 88.0
+scale = Vector2(0.5, 0.5)
+text = "1.0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="temp_l_arm" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 78.0
+offset_top = 46.0
+offset_right = 126.0
+offset_bottom = 78.0
+scale = Vector2(0.5, 0.5)
+text = "15C"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="hp_l_hand" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 78.0
+offset_top = 72.0
+offset_right = 126.0
+offset_bottom = 104.0
+scale = Vector2(0.5, 0.5)
+text = "1.0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="temp_l_hand" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 78.0
+offset_top = 82.0
+offset_right = 126.0
+offset_bottom = 114.0
+scale = Vector2(0.5, 0.5)
+text = "15C"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="hp_r_leg_upper" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 70.0
+offset_right = 80.0
+offset_bottom = 102.0
+scale = Vector2(0.5, 0.5)
+text = "1.0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="hp_r_leg_lower" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 90.0
+offset_right = 80.0
+offset_bottom = 122.0
+scale = Vector2(0.5, 0.5)
+text = "1.0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="temp_r_leg" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 80.0
+offset_right = 80.0
+offset_bottom = 112.0
+scale = Vector2(0.5, 0.5)
+text = "15C"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="hp_r_foot" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 106.0
+offset_right = 80.0
+offset_bottom = 138.0
+scale = Vector2(0.5, 0.5)
+text = "1.0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="temp_r_foot" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 116.0
+offset_right = 80.0
+offset_bottom = 148.0
+scale = Vector2(0.5, 0.5)
+text = "15C"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="hp_l_leg_upper" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 70.0
+offset_right = 104.0
+offset_bottom = 102.0
+scale = Vector2(0.5, 0.5)
+text = "1.0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="hp_l_leg_lower" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 90.0
+offset_right = 104.0
+offset_bottom = 122.0
+scale = Vector2(0.5, 0.5)
+text = "1.0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="temp_l_leg" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 80.0
+offset_right = 104.0
+offset_bottom = 112.0
+scale = Vector2(0.5, 0.5)
+text = "15C"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="hp_l_foot" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 106.0
+offset_right = 104.0
+offset_bottom = 138.0
+scale = Vector2(0.5, 0.5)
+text = "1.0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="temp_l_foot" type="Label" parent="ui/hud/body"]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 116.0
+offset_right = 104.0
+offset_bottom = 148.0
+scale = Vector2(0.5, 0.5)
+text = "15C"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="finished" from="amb_night" to="amb_night" method="_on_finished"]
+[connection signal="finished" from="campfire/sfx" to="campfire/sfx" method="_on_finished"]
+[connection signal="body_entered" from="campfire/damage_area" to="campfire/damage_area" method="_on_body_entered"]

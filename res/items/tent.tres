@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Item" load_steps=2 format=3 uid="uid://dt4sgw17iq3qg"]
+
+[ext_resource type="Script" path="res://scripts/res/res_item.gd" id="1_ixx6c"]
+
+[resource]
+script = ExtResource("1_ixx6c")
+type = "tent"
+display_name = "Tent"
+size = 64
+weight = 3
