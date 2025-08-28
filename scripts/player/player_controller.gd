@@ -45,6 +45,8 @@ var quick_item: int = 0
 @onready var ray_large: RayCast3D = get_node("head/cam/ray_large")
 @onready var ray_small: RayCast3D = get_node("head/cam/ray_small")
 
+@onready var watch: MeshInstance3D = get_node("head/cam/watch")
+
 @onready var lab_prompt: Label = get_parent().get_node("ui/hud/prompt")
 @onready var lab_holding: Label = get_parent().get_node("ui/hud/item")
 @onready var reticle: ColorRect = get_parent().get_node("ui/hud/reticle")
@@ -72,6 +74,17 @@ func _physics_process(delta):
 	# send height to world for temperature calculation
 	world.player_alt = position.y
 	
+	# watch
+	if Input.is_action_just_pressed("hud_watch"):
+		watch.visible = true
+	if Input.is_action_just_released("hud_watch"):
+		watch.visible = false
+	
+	var minute_rot = (360/60) * world.minute_ref
+	var hour_rot = (((2 * PI) / 12) * world.hour_ref) + (((2 * PI) / 720) * world.minute_ref)
+	watch.get_node("hand_minute").rotation_degrees = Vector3(0, -minute_rot, 0)
+	watch.get_node("hand_hour").rotation = Vector3(0, -hour_rot, 0)
+	
 	# movement direction
 	var input_dir
 	if !player_stats.energy <= 0:
@@ -85,7 +98,7 @@ func _physics_process(delta):
 		velocity.y -= gravity * delta
 		
 	# handle death
-	if player_stats.energy <= 0:
+	if player_stats.energy <= 0 or player_stats.water <= 0:
 		col.shape.height = 0.1
 		cam.rotation.z = lerp(cam.rotation.z, deg_to_rad(90), delta * 2.0)
 		velocity.x = lerp(velocity.x, direction.x, delta * 3.0)
@@ -320,6 +333,7 @@ func _physics_process(delta):
 						is_holding = false
 						holding = null
 			
+
 	
 func _headbob(time: float) -> Vector3:
 	var pos: Vector3 = Vector3.ZERO
