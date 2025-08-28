@@ -50,6 +50,7 @@ collision_mask = 8
 script = ExtResource("2_fpxnk")
 section = "top"
 size = 32
+whitelist = ["cheese"]
 prompt_message = "Extract from Top"
 type = "pocket"
 

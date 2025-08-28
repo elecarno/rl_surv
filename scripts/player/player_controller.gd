@@ -224,17 +224,21 @@ func _physics_process(delta):
 							holding = ray_col.contents[0]
 							ray_col.extract_item()
 				else:
-					var current_capacity = ray_col.get_used_capacity()
-					var added_capacity = holding.size + current_capacity
-					if added_capacity <= ray_col.size:
-						lab_prompt.text = "Pack " + holding.display_name + " into " + ray_col.section.capitalize()
-						if Input.is_action_just_pressed("act_interact"):
-							ray_col.insert_item(holding)
-							holding = null
-							is_holding = false
+					if ray_col.whitelist == [] or ray_col.whitelist.has(holding.type):
+						
+						var current_capacity = ray_col.get_used_capacity()
+						var added_capacity = holding.size + current_capacity
+						if added_capacity <= ray_col.size:
+							lab_prompt.text = "Pack " + holding.display_name + " into " + ray_col.section.capitalize()
+							if Input.is_action_just_pressed("act_interact"):
+								ray_col.insert_item(holding)
+								holding = null
+								is_holding = false
+						else:
+							lab_prompt.text = "Not enough space to pack " + holding.display_name + " into " + ray_col.section.capitalize()
 					else:
-						lab_prompt.text = "Not enough space to pack " + holding.display_name + " into " + ray_col.section.capitalize()
-		
+						lab_prompt.text = "Cannot place " + holding.display_name + " into " + ray_col.section.capitalize()
+						
 		# handle pickup items
 		if ray_col is Pickup:
 			lab_prompt.visible = true

@@ -7,6 +7,7 @@ extends SmallInteract
 #   of the pocket
 @export var section: String = "pocket"
 @export var size: int = 128
+@export var whitelist: Array[String] = []
 
 var contents: Array[Item]
 
