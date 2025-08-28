@@ -112,6 +112,9 @@ max_polyphony = 4
 panning_strength = 0.1
 bus = &"Reverb"
 
+[node name="drop_point" type="Node3D" parent="head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, -1.4)
+
 [node name="legs" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 collision_layer = 2

@@ -3,12 +3,13 @@
 [ext_resource type="Script" path="res://scripts/interactables/pickup.gd" id="1_84vln"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_vw132"]
-size = Vector3(0.15, 0.15, 0.15)
+size = Vector3(0.25, 0.25, 0.25)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_emx45"]
-size = Vector3(0.15, 0.15, 0.15)
+size = Vector3(0.25, 0.25, 0.25)
 
 [node name="pickup" type="RigidBody3D"]
+mass = 0.1
 script = ExtResource("1_84vln")
 
 [node name="mesh" type="MeshInstance3D" parent="."]

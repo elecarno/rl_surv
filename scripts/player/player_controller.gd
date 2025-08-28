@@ -212,6 +212,7 @@ func _physics_process(delta):
 			lab_prompt.visible = true
 			lab_prompt.text = ray_col.prompt_message
 			
+			# handle backpack pockets
 			if ray_col.type == "pocket":
 				if !is_holding:
 					if ray_col.contents == []:
@@ -222,27 +223,47 @@ func _physics_process(delta):
 							is_holding = true
 							holding = ray_col.contents[0]
 							ray_col.extract_item()
-							lab_holding.text = "Holding " + holding.display_name
-							lab_holding.visible = true
-							$head/cam/item.visible = true
 				else:
-					lab_prompt.text = "Pack " + holding.display_name + " into " + ray_col.section.capitalize()
-					if Input.is_action_just_pressed("act_interact"):
-						ray_col.insert_item(holding)
-						holding = null
-						lab_holding.visible = false
-						$head/cam/item.visible = false
-						is_holding = false
+					var current_capacity = ray_col.get_used_capacity()
+					var added_capacity = holding.size + current_capacity
+					if added_capacity <= ray_col.size:
+						lab_prompt.text = "Pack " + holding.display_name + " into " + ray_col.section.capitalize()
+						if Input.is_action_just_pressed("act_interact"):
+							ray_col.insert_item(holding)
+							holding = null
+							is_holding = false
+					else:
+						lab_prompt.text = "Not enough space to pack " + holding.display_name + " into " + ray_col.section.capitalize()
+		
+		# handle pickup items
+		if ray_col is Pickup:
+			lab_prompt.visible = true
+			lab_prompt.text = "Pick up " + ray_col.res.display_name
+			
+			if Input.is_action_just_pressed("act_interact"):
+				is_holding = true
+				holding = ray_col.res
+				ray_col.pickup_item()
 			
 	elif ray_small.enabled and !ray_small.is_colliding():
 		lab_prompt.visible = false
 		
 	if Input.is_action_just_pressed("act_drop") and is_holding:
+		var inst_pickup: Pickup = pickup.instantiate()
+		inst_pickup.res = holding
+		inst_pickup.position = $head/drop_point.global_position
+		inst_pickup.rotation = head.rotation
 		is_holding = false
 		holding = null
+		get_parent().add_child(inst_pickup)
+	
+	if is_holding:
+		lab_holding.text = "Holding " + holding.display_name
+		lab_holding.visible = true
+		$head/cam/item.visible = true
+	else:
 		lab_holding.visible = false
 		$head/cam/item.visible = false
-	
 	
 func _headbob(time: float) -> Vector3:
 	var pos: Vector3 = Vector3.ZERO
@@ -254,4 +275,4 @@ func _on_coyote_time_timeout():
 	grounded = false
 
 func _on_sprint_cooldown_timeout():
-	player_stats.can_sprint = true					
+	player_stats.can_sprint = true
