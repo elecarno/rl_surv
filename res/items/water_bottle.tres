@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Item" load_steps=2 format=3 uid="uid://d28ggwk2k60be"]
+
+[ext_resource type="Script" path="res://scripts/res/res_item.gd" id="1_xfd6f"]
+
+[resource]
+script = ExtResource("1_xfd6f")
+type = "water_bottle"
+display_name = "Water Bottle"
+size = 8
+weight = 0.5

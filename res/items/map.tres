@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Item" load_steps=2 format=3 uid="uid://d2hcrc6yfaqdw"]
+
+[ext_resource type="Script" path="res://scripts/res/res_item.gd" id="1_d1et8"]
+
+[resource]
+script = ExtResource("1_d1et8")
+type = "map"
+display_name = "Map"
+size = 2
+weight = 0.01

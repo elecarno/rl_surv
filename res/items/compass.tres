@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Item" load_steps=2 format=3 uid="uid://4x51r71w0rvw"]
+
+[ext_resource type="Script" path="res://scripts/res/res_item.gd" id="1_oqaim"]
+
+[resource]
+script = ExtResource("1_oqaim")
+type = "compass"
+display_name = "Compass"
+size = 2
+weight = 0.05

@@ -29,6 +29,10 @@ var placed_backpack: bool = false
 var is_holding: bool = false
 var holding: Item
 
+# 0 = nothing, 1 = left_strap, 2 = right_strap, 3 = right_pocket
+var using_quick_item: bool = false
+var quick_item: int = 0 
+
 @onready var empty_backpack: Backpack = preload("res://res/backpack_empty.tres")
 @export var backpack_res: Backpack
 
@@ -197,7 +201,6 @@ func _physics_process(delta):
 			if Input.is_action_just_pressed("act_pickup"):
 				if ray_col.type == "backpack":
 					ray_col.use_backpack()
-					print(backpack_res.main, backpack_res.top)
 					placed_backpack = false
 					lab_prompt.visible = false
 					
@@ -252,7 +255,7 @@ func _physics_process(delta):
 	elif ray_small.enabled and !ray_small.is_colliding():
 		lab_prompt.visible = false
 		
-	if Input.is_action_just_pressed("act_drop") and is_holding:
+	if Input.is_action_just_pressed("act_drop") and is_holding and !using_quick_item:
 		var inst_pickup: Pickup = pickup.instantiate()
 		inst_pickup.res = holding
 		inst_pickup.position = $head/drop_point.global_position
@@ -265,9 +268,58 @@ func _physics_process(delta):
 		lab_holding.text = "Holding " + holding.display_name
 		lab_holding.visible = true
 		$head/cam/item.visible = true
+		
+		if using_quick_item:
+			lab_holding.text += " (Quick Item)"
 	else:
 		lab_holding.visible = false
 		$head/cam/item.visible = false
+		
+	# handle quick items
+	# bag strap items
+	if Input.is_action_just_pressed("item_quick"):
+		if quick_item > 0 or !is_holding:
+			quick_item += 1
+			if quick_item > 3:
+				quick_item = 0
+			
+			if quick_item > 0:
+				is_holding = true
+				using_quick_item = true
+			
+			match quick_item:
+				0:
+					if holding != null:
+						backpack_res.right_pocket.insert(0, holding)
+					is_holding = false
+					holding = null
+					using_quick_item = false
+				1: 
+					if backpack_res.left_strap != []:
+						holding = backpack_res.left_strap[0]
+						backpack_res.left_strap.remove_at(0)
+					else: 
+						is_holding = false
+						holding = null
+				2:
+					if holding != null:
+						backpack_res.left_strap.insert(0, holding)
+					if backpack_res.right_strap != []:
+						holding = backpack_res.right_strap[0]
+						backpack_res.right_strap.remove_at(0)
+					else: 
+						is_holding = false
+						holding = null
+				3:
+					if holding != null:
+						backpack_res.right_strap.insert(0, holding)
+					if backpack_res.right_pocket != []:
+						holding = backpack_res.right_pocket[0]
+						backpack_res.right_pocket.remove_at(0)
+					else: 
+						is_holding = false
+						holding = null
+			
 	
 func _headbob(time: float) -> Vector3:
 	var pos: Vector3 = Vector3.ZERO

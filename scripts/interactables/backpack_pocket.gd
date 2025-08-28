@@ -8,20 +8,30 @@ extends SmallInteract
 @export var section: String = "pocket"
 @export var size: int = 128
 @export var whitelist: Array[String] = []
+@export var strap: bool = false
+@export var display_mesh: MeshInstance3D
 
 var contents: Array[Item]
 
-func _ready() -> void:
+func initialise():
 	print(section + " placed with " + str(contents.size()) + " items:")
-	print(contents)
+	
+	if strap and contents.size() == 0:
+		display_mesh.visible = false
 
 func extract_item():
 	print("removing " + contents[0].display_name + " from " + section)
 	contents.remove_at(0)
 	
+	if strap:
+		display_mesh.visible = false
+	
 func insert_item(item: Item):
-	contents.append(item)
+	contents.insert(0, item)
 	print("added " + item.type + " to " + section)
+	
+	if strap:
+		display_mesh.visible = true
 	
 func get_used_capacity() -> int:
 	var used: int = 0

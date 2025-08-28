@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Item" load_steps=2 format=3 uid="uid://ccf44mtc676un"]
+
+[ext_resource type="Script" path="res://scripts/res/res_item.gd" id="1_7jeba"]
+
+[resource]
+script = ExtResource("1_7jeba")
+type = "sleeping_mat"
+display_name = "Sleeping Mat"
+size = 256
+weight = 1.0

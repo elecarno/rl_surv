@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://b6bacdt1o8nfv"]
+[gd_scene load_steps=14 format=3 uid="uid://b6bacdt1o8nfv"]
 
 [ext_resource type="Script" path="res://scripts/interactables/backpack.gd" id="1_1g44v"]
 [ext_resource type="Script" path="res://scripts/interactables/backpack_pocket.gd" id="2_fpxnk"]
@@ -12,11 +12,29 @@ size = Vector3(0.5, 1, 0.5)
 [sub_resource type="BoxShape3D" id="BoxShape3D_g3n7i"]
 size = Vector3(0.5, 0.3, 0.5)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_dde8r"]
+size = Vector3(0.1, 0.3, 0.3)
+
 [sub_resource type="BoxMesh" id="BoxMesh_luw88"]
 size = Vector3(0.5, 1, 0.5)
 
 [sub_resource type="BoxMesh" id="BoxMesh_w3d6b"]
 size = Vector3(0.5, 0.3, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_fdx5e"]
+size = Vector3(0.1, 0.3, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_gf3qc"]
+size = Vector3(0.1, 0.3, 0.4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_nv5re"]
+size = Vector3(0.05, 0.3, 0.4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ic160"]
+size = Vector3(0.8, 0.2, 0.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_87bgs"]
+size = Vector3(0.05, 0.3, 0.2)
 
 [node name="backpack" type="StaticBody3D"]
 collision_layer = 4
@@ -50,21 +68,126 @@ collision_mask = 8
 script = ExtResource("2_fpxnk")
 section = "top"
 size = 32
-whitelist = ["cheese"]
 prompt_message = "Extract from Top"
 type = "pocket"
 
 [node name="col" type="CollisionShape3D" parent="interface/top"]
 shape = SubResource("BoxShape3D_g3n7i")
 
+[node name="top_strap" type="Area3D" parent="interface" node_paths=PackedStringArray("display_mesh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00143981, 1.56572, -0.00137162)
+collision_layer = 8
+collision_mask = 8
+script = ExtResource("2_fpxnk")
+section = "top_strap"
+size = 256
+whitelist = ["sleeping_mat"]
+strap = true
+display_mesh = NodePath("../../meshes/top_display")
+prompt_message = "Extract from Top Strap"
+type = "pocket"
+
+[node name="col" type="CollisionShape3D" parent="interface/top_strap"]
+shape = SubResource("BoxShape3D_g3n7i")
+
+[node name="right_pocket" type="Area3D" parent="interface" node_paths=PackedStringArray("display_mesh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.28, 0.725, 0)
+collision_layer = 8
+collision_mask = 8
+script = ExtResource("2_fpxnk")
+section = "right_pocket"
+size = 4
+strap = true
+display_mesh = NodePath("../../meshes/right_display2")
+prompt_message = "Extract from Right Strap"
+type = "pocket"
+
+[node name="col" type="CollisionShape3D" parent="interface/right_pocket"]
+shape = SubResource("BoxShape3D_dde8r")
+
+[node name="right_strap" type="Area3D" parent="interface" node_paths=PackedStringArray("display_mesh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.28, 0.275192, 0)
+collision_layer = 8
+collision_mask = 8
+script = ExtResource("2_fpxnk")
+section = "right_strap"
+size = 4
+strap = true
+display_mesh = NodePath("../../meshes/right_display1")
+prompt_message = "Extract from Right Strap"
+type = "pocket"
+
+[node name="col" type="CollisionShape3D" parent="interface/right_strap"]
+shape = SubResource("BoxShape3D_dde8r")
+
+[node name="left_strap" type="Area3D" parent="interface" node_paths=PackedStringArray("display_mesh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.28, 0.275192, 0)
+collision_layer = 8
+collision_mask = 8
+script = ExtResource("2_fpxnk")
+section = "left_strap"
+size = 8
+strap = true
+display_mesh = NodePath("../../meshes/left_display")
+prompt_message = "Extract from Right Strap"
+type = "pocket"
+
+[node name="col" type="CollisionShape3D" parent="interface/left_strap"]
+shape = SubResource("BoxShape3D_dde8r")
+
 [node name="meshes" type="Node3D" parent="."]
 
-[node name="mesh" type="MeshInstance3D" parent="meshes"]
+[node name="main" type="MeshInstance3D" parent="meshes"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 mesh = SubResource("BoxMesh_luw88")
 skeleton = NodePath("../..")
 
-[node name="mesh2" type="MeshInstance3D" parent="meshes"]
+[node name="top" type="MeshInstance3D" parent="meshes"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
 mesh = SubResource("BoxMesh_w3d6b")
+skeleton = NodePath("../..")
+
+[node name="right_strap" type="MeshInstance3D" parent="meshes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.28, 0.275192, 0)
+mesh = SubResource("BoxMesh_fdx5e")
+skeleton = NodePath("../..")
+
+[node name="right_pocket" type="MeshInstance3D" parent="meshes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.28, 0.725, 0)
+mesh = SubResource("BoxMesh_fdx5e")
+skeleton = NodePath("../..")
+
+[node name="left_strap" type="MeshInstance3D" parent="meshes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.28, 0.275192, 0)
+mesh = SubResource("BoxMesh_gf3qc")
+skeleton = NodePath("../..")
+
+[node name="top_strap1" type="MeshInstance3D" parent="meshes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 1.46, 0)
+mesh = SubResource("BoxMesh_nv5re")
+skeleton = NodePath("../..")
+
+[node name="top_strap2" type="MeshInstance3D" parent="meshes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 1.46, 0)
+mesh = SubResource("BoxMesh_nv5re")
+skeleton = NodePath("../..")
+
+[node name="top_display" type="MeshInstance3D" parent="meshes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.56128, 0)
+mesh = SubResource("BoxMesh_ic160")
+skeleton = NodePath("../..")
+
+[node name="right_display2" type="MeshInstance3D" parent="meshes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.28, 0.8, 0)
+mesh = SubResource("BoxMesh_87bgs")
+skeleton = NodePath("../..")
+
+[node name="right_display1" type="MeshInstance3D" parent="meshes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.28, 0.35, 0)
+mesh = SubResource("BoxMesh_87bgs")
+skeleton = NodePath("../..")
+
+[node name="left_display" type="MeshInstance3D" parent="meshes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.28, 0.35, 0)
+mesh = SubResource("BoxMesh_87bgs")
 skeleton = NodePath("../..")
