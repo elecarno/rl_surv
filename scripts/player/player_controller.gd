@@ -45,7 +45,7 @@ var quick_item: int = 0
 @onready var ray_large: RayCast3D = get_node("head/cam/ray_large")
 @onready var ray_small: RayCast3D = get_node("head/cam/ray_small")
 
-@onready var watch: MeshInstance3D = get_node("head/cam/watch")
+@onready var items: Node3D = get_node("head/cam/items")
 
 @onready var lab_prompt: Label = get_parent().get_node("ui/hud/prompt")
 @onready var lab_holding: Label = get_parent().get_node("ui/hud/item")
@@ -73,17 +73,6 @@ func _physics_process(delta):
 	
 	# send height to world for temperature calculation
 	world.player_alt = position.y
-	
-	# watch
-	if Input.is_action_just_pressed("hud_watch"):
-		watch.visible = true
-	if Input.is_action_just_released("hud_watch"):
-		watch.visible = false
-	
-	var minute_rot = (360/60) * world.minute_ref
-	var hour_rot = (((2 * PI) / 12) * world.hour_ref) + (((2 * PI) / 720) * world.minute_ref)
-	watch.get_node("hand_minute").rotation_degrees = Vector3(0, -minute_rot, 0)
-	watch.get_node("hand_hour").rotation = Vector3(0, -hour_rot, 0)
 	
 	# movement direction
 	var input_dir
@@ -178,9 +167,11 @@ func _physics_process(delta):
 	
 	if is_on_floor() and not was_on_floor:
 		sfx.play_sfx(3)
-		
 	
 	# handle interaction
+	handle_interaction(delta)
+	
+func handle_interaction(delta):
 	if Input.is_action_pressed("mode_interact") and speed != SPRINT_SPEED:
 		mode_interact = true
 		ray_large.enabled = false
@@ -234,7 +225,7 @@ func _physics_process(delta):
 					if ray_col.contents == []:
 						lab_prompt.text = "Container Empty"
 					else:
-						lab_prompt.text = "Extract from " + ray_col.section.capitalize()
+						lab_prompt.text = "Extract " + ray_col.contents[0].display_name + " from " + ray_col.section.capitalize()
 						if Input.is_action_just_pressed("act_interact"):
 							is_holding = true
 							holding = ray_col.contents[0]
@@ -280,13 +271,13 @@ func _physics_process(delta):
 	if is_holding:
 		lab_holding.text = "Holding " + holding.display_name
 		lab_holding.visible = true
-		$head/cam/item.visible = true
+		items.show_item(holding.type)
 		
 		if using_quick_item:
 			lab_holding.text += " (Quick Item)"
 	else:
 		lab_holding.visible = false
-		$head/cam/item.visible = false
+		items.hide_all()
 		
 	# handle quick items
 	# bag strap items
@@ -332,8 +323,6 @@ func _physics_process(delta):
 					else: 
 						is_holding = false
 						holding = null
-			
-
 	
 func _headbob(time: float) -> Vector3:
 	var pos: Vector3 = Vector3.ZERO
