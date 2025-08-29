@@ -15,7 +15,7 @@ func show_item(item: String):
 	else:
 		self.get_node("item").visible = true
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	# watch
 	if Input.is_action_just_pressed("hud_watch"):
 		watch.visible = true

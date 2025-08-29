@@ -1,12 +1,13 @@
-[gd_scene load_steps=55 format=4 uid="uid://brrjkso5tn5px"]
+[gd_scene load_steps=57 format=4 uid="uid://brrjkso5tn5px"]
 
 [ext_resource type="Script" path="res://scripts/player/player_controller.gd" id="1_sr7s8"]
-[ext_resource type="Resource" uid="uid://bvopyhqxddb7m" path="res://res/backpack_default.tres" id="2_1g4a2"]
+[ext_resource type="Resource" uid="uid://cps3d70mra73o" path="res://res/backpack_default.tres" id="2_1g4a2"]
 [ext_resource type="Script" path="res://scripts/player/player_sfx.gd" id="2_064q6"]
 [ext_resource type="Material" uid="uid://d3ce3108rma4w" path="res://mats/black.tres" id="3_cie65"]
 [ext_resource type="Script" path="res://scripts/player/item_model_handler.gd" id="3_fcy5b"]
 [ext_resource type="AudioStream" uid="uid://cnj7p3mys5vr4" path="res://sound/footsteps/Footsteps_Leaves_Walk_01.wav" id="3_pybh6"]
 [ext_resource type="AudioStream" uid="uid://tpebc2yu8rsb" path="res://sound/footsteps/Footsteps_Leaves_Walk_02.wav" id="4_pqs5o"]
+[ext_resource type="Script" path="res://scripts/items/food.gd" id="4_qjbx5"]
 [ext_resource type="Script" path="res://scripts/items/compass.gd" id="5_aw10b"]
 [ext_resource type="AudioStream" uid="uid://wyimqwi6l6na" path="res://sound/footsteps/Footsteps_Leaves_Walk_03.wav" id="5_mv6ti"]
 [ext_resource type="AudioStream" uid="uid://c4bllywk436es" path="res://sound/footsteps/Footsteps_Leaves_Walk_04.wav" id="6_kimx5"]
@@ -35,7 +36,10 @@ height = 1.8
 height = 1.8
 
 [sub_resource type="BoxMesh" id="BoxMesh_d7qit"]
-size = Vector3(0.15, 0.15, 0.15)
+size = Vector3(0.1, 0.1, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_tfv36"]
+size = Vector3(0.1, 0.35, 0.1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cxhrw"]
 
@@ -316,10 +320,24 @@ collide_with_areas = true
 script = ExtResource("3_fcy5b")
 
 [node name="item" type="MeshInstance3D" parent="head/cam/items"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.256, -0.239, -0.4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.255, -0.24, -0.4)
 visible = false
 mesh = SubResource("BoxMesh_d7qit")
 skeleton = NodePath("../../../..")
+
+[node name="cheese" type="MeshInstance3D" parent="head/cam/items"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.255, -0.24, -0.4)
+visible = false
+mesh = SubResource("BoxMesh_d7qit")
+skeleton = NodePath("../../../..")
+script = ExtResource("4_qjbx5")
+
+[node name="water_bottle" type="MeshInstance3D" parent="head/cam/items"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.255, -0.2, -0.4)
+visible = false
+mesh = SubResource("BoxMesh_tfv36")
+skeleton = NodePath("../../../..")
+script = ExtResource("4_qjbx5")
 
 [node name="watch" type="MeshInstance3D" parent="head/cam/items"]
 transform = Transform3D(0.0307407, 0.026002, 0.0153775, 0, 0.0219394, -0.0370975, -0.0302088, 0.0264598, 0.0156483, -0.09, -0.044, -0.134)
@@ -361,6 +379,7 @@ script = ExtResource("7_jkj04")
 
 [node name="thermometer" type="MeshInstance3D" parent="head/cam/items"]
 transform = Transform3D(0.927184, -0.372199, -0.0424067, 0, 0.113203, -0.993572, 0.374607, 0.921224, 0.10496, 0.27, -0.095, -0.335)
+visible = false
 mesh = SubResource("ArrayMesh_14k31")
 skeleton = NodePath("")
 script = ExtResource("8_cjpkn")

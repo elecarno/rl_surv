@@ -1,9 +1,9 @@
 extends Resource
 class_name Backpack
 
-@export var main: Array[Item]
-@export var top: Array[Item]
-@export var top_strap: Array[Item]
-@export var right_pocket: Array[Item]
-@export var right_strap: Array[Item]
-@export var left_strap: Array[Item]
+@export var main: Array[ItemInstance]
+@export var top: Array[ItemInstance]
+@export var top_strap: Array[ItemInstance]
+@export var right_pocket: Array[ItemInstance]
+@export var right_strap: Array[ItemInstance]
+@export var left_strap: Array[ItemInstance]

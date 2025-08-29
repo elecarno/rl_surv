@@ -10,13 +10,13 @@ var can_sprint: bool = true
 
 # stats drain per tick
 var water: float = 1.0
-var WATER_DRAIN: float = 0.002315 # 3 days still, 6hrs moving
+var WATER_DRAIN: float = -0.002315 # 3 days still, 6hrs moving
 var energy: float = 1.0
-var ENERGY_DRAIN: float = 0.000992 # 7 days still, 3 days moving
+var ENERGY_DRAIN: float = -0.000992 # 7 days still, 3 days moving
 var nutrition: float = 1.0
-var NUTRITION_DRAIN: float = 0.00278 # 2.5 days still, 5hrs moving
+var NUTRITION_DRAIN: float = -0.00278 # 2.5 days still, 5hrs moving
 var morale: float = 1.0
-var MORALE_DRAIN: float = 0.00386 # 1.8 days still
+var MORALE_DRAIN: float = -0.00386 # 1.8 days still
 
 var current_tick
 
@@ -69,10 +69,21 @@ func _process(delta):
 		current_tick = world.tick
 	
 func drain_stats():
-	water -= WATER_DRAIN
-	energy -= ENERGY_DRAIN
-	nutrition -= NUTRITION_DRAIN
-	morale -= MORALE_DRAIN
+	modify_stat("water", WATER_DRAIN)
+	modify_stat("energy", ENERGY_DRAIN)
+	modify_stat("nutrition", NUTRITION_DRAIN)
+	modify_stat("morale", MORALE_DRAIN)
+	
+func modify_stat(stat: String, amount: float):
+	match stat:
+		"water":
+			water = clamp(water + amount, 0.0, 1.0)
+		"energy":
+			energy = clamp(energy + amount, 0.0, 1.0)
+		"nutrition":
+			nutrition = clamp(nutrition + amount, 0.0, 1.0)
+		"morale":
+			morale = clamp(morale + amount, 0.0, 1.0)
 			
 func take_damage(damage: float):
-	pass
+	print(str(damage) + " damage")

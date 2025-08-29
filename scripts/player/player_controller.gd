@@ -27,7 +27,7 @@ var gravity = 19.6
 var mode_interact: bool = false
 var placed_backpack: bool = false
 var is_holding: bool = false
-var holding: Item
+var holding: ItemInstance
 
 # 0 = nothing, 1 = left_strap, 2 = right_strap, 3 = right_pocket
 var using_quick_item: bool = false
@@ -196,6 +196,8 @@ func handle_interaction(delta):
 				inst_backpack.data = backpack_res
 				get_parent().add_child(inst_backpack)
 				placed_backpack = true
+				using_quick_item = false
+				quick_item = 0
 				backpack_res = empty_backpack
 				
 		if ray_col is LargeInteract:
@@ -225,31 +227,31 @@ func handle_interaction(delta):
 					if ray_col.contents == []:
 						lab_prompt.text = "Container Empty"
 					else:
-						lab_prompt.text = "Extract " + ray_col.contents[0].display_name + " from " + ray_col.section.capitalize()
+						lab_prompt.text = "Extract " + ray_col.contents[0].item.display_name + " from " + ray_col.section.capitalize()
 						if Input.is_action_just_pressed("act_interact"):
 							is_holding = true
 							holding = ray_col.contents[0]
 							ray_col.extract_item()
 				else:
-					if ray_col.whitelist == [] or ray_col.whitelist.has(holding.type):
+					if ray_col.whitelist == [] or ray_col.whitelist.has(holding.item.type):
 						
 						var current_capacity = ray_col.get_used_capacity()
-						var added_capacity = holding.size + current_capacity
+						var added_capacity = holding.item.size + current_capacity
 						if added_capacity <= ray_col.size:
-							lab_prompt.text = "Pack " + holding.display_name + " into " + ray_col.section.capitalize()
+							lab_prompt.text = "Pack " + holding.item.display_name + " into " + ray_col.section.capitalize()
 							if Input.is_action_just_pressed("act_interact"):
 								ray_col.insert_item(holding)
 								holding = null
 								is_holding = false
 						else:
-							lab_prompt.text = "Not enough space to pack " + holding.display_name + " into " + ray_col.section.capitalize()
+							lab_prompt.text = "Not enough space to pack " + holding.item.display_name + " into " + ray_col.section.capitalize()
 					else:
-						lab_prompt.text = "Cannot place " + holding.display_name + " into " + ray_col.section.capitalize()
+						lab_prompt.text = "Cannot place " + holding.item.display_name + " into " + ray_col.section.capitalize()
 						
 		# handle pickup items
 		if ray_col is Pickup:
 			lab_prompt.visible = true
-			lab_prompt.text = "Pick up " + ray_col.res.display_name
+			lab_prompt.text = "Pick up " + ray_col.res.item.display_name
 			
 			if Input.is_action_just_pressed("act_interact"):
 				is_holding = true
@@ -269,12 +271,17 @@ func handle_interaction(delta):
 		get_parent().add_child(inst_pickup)
 	
 	if is_holding:
-		lab_holding.text = "Holding " + holding.display_name
-		lab_holding.visible = true
-		items.show_item(holding.type)
+		items.show_item(holding.item.type)
 		
 		if using_quick_item:
-			lab_holding.text += " (Quick Item)"
+			lab_holding.text = "Quick Item: " + holding.item.display_name
+		else:
+			lab_holding.text = "Holding " + holding.item.display_name
+			
+		if holding.contents <= 0:
+				lab_holding.text += " (Empty)"
+			
+		lab_holding.visible = true
 	else:
 		lab_holding.visible = false
 		items.hide_all()

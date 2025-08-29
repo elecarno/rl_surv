@@ -1,8 +1,8 @@
-[gd_resource type="Resource" script_class="Backpack" load_steps=11 format=3 uid="uid://bvopyhqxddb7m"]
+[gd_resource type="Resource" script_class="Backpack" load_steps=19 format=3 uid="uid://cps3d70mra73o"]
 
-[ext_resource type="Script" path="res://scripts/res/res_item.gd" id="1_qf16l"]
 [ext_resource type="Resource" uid="uid://d28ggwk2k60be" path="res://res/items/water_bottle.tres" id="2_b2qyv"]
 [ext_resource type="Resource" uid="uid://dt4sgw17iq3qg" path="res://res/items/tent.tres" id="2_gxxea"]
+[ext_resource type="Script" path="res://scripts/res/res_item_inst.gd" id="2_vsn6i"]
 [ext_resource type="Resource" uid="uid://8tidsgk6ynvp" path="res://res/items/sleeping_bag.tres" id="3_8i2up"]
 [ext_resource type="Script" path="res://scripts/res/res_backpack.gd" id="4_yuw55"]
 [ext_resource type="Resource" uid="uid://c7d5n28w43qmv" path="res://res/items/cheese.tres" id="5_1sy20"]
@@ -11,11 +11,59 @@
 [ext_resource type="Resource" uid="uid://4x51r71w0rvw" path="res://res/items/compass.tres" id="6_p2dr5"]
 [ext_resource type="Resource" uid="uid://dr4qxdhth2mv" path="res://res/items/thermometer.tres" id="8_npb3p"]
 
+[sub_resource type="Resource" id="Resource_ql3to"]
+script = ExtResource("2_vsn6i")
+item = ExtResource("2_b2qyv")
+is_wet = false
+contents = 8
+
+[sub_resource type="Resource" id="Resource_egt5o"]
+script = ExtResource("2_vsn6i")
+item = ExtResource("2_gxxea")
+is_wet = false
+contents = 0
+
+[sub_resource type="Resource" id="Resource_ia2jf"]
+script = ExtResource("2_vsn6i")
+item = ExtResource("3_8i2up")
+is_wet = false
+contents = 0
+
+[sub_resource type="Resource" id="Resource_l07qw"]
+script = ExtResource("2_vsn6i")
+item = ExtResource("5_r2cgs")
+is_wet = false
+contents = 0
+
+[sub_resource type="Resource" id="Resource_xvt40"]
+script = ExtResource("2_vsn6i")
+item = ExtResource("6_p2dr5")
+is_wet = false
+contents = 0
+
+[sub_resource type="Resource" id="Resource_b3qvy"]
+script = ExtResource("2_vsn6i")
+item = ExtResource("8_npb3p")
+is_wet = false
+contents = 0
+
+[sub_resource type="Resource" id="Resource_2bq4y"]
+script = ExtResource("2_vsn6i")
+item = ExtResource("5_1sy20")
+is_wet = false
+contents = 6
+
+[sub_resource type="Resource" id="Resource_wd5ee"]
+script = ExtResource("2_vsn6i")
+item = ExtResource("6_44hlh")
+is_wet = false
+contents = 0
+
 [resource]
 script = ExtResource("4_yuw55")
-main = Array[ExtResource("1_qf16l")]([ExtResource("2_gxxea"), ExtResource("3_8i2up")])
-top = Array[ExtResource("1_qf16l")]([ExtResource("8_npb3p"), ExtResource("5_1sy20")])
-top_strap = Array[ExtResource("1_qf16l")]([ExtResource("6_44hlh")])
-right_pocket = Array[ExtResource("1_qf16l")]([ExtResource("5_r2cgs")])
-right_strap = Array[ExtResource("1_qf16l")]([ExtResource("6_p2dr5")])
-left_strap = Array[ExtResource("1_qf16l")]([ExtResource("2_b2qyv")])
+main = Array[ExtResource("2_vsn6i")]([SubResource("Resource_egt5o"), SubResource("Resource_ia2jf")])
+top = Array[ExtResource("2_vsn6i")]([SubResource("Resource_b3qvy"), SubResource("Resource_2bq4y")])
+top_strap = Array[ExtResource("2_vsn6i")]([SubResource("Resource_wd5ee")])
+right_pocket = Array[ExtResource("2_vsn6i")]([SubResource("Resource_l07qw")])
+right_strap = Array[ExtResource("2_vsn6i")]([SubResource("Resource_xvt40")])
+left_strap = Array[ExtResource("2_vsn6i")]([SubResource("Resource_ql3to")])
