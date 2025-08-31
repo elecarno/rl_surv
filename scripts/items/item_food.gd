@@ -1,6 +1,4 @@
-extends MeshInstance3D
-
-@export var on_ground: bool = false
+extends ItemFunction
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("item_use") and !on_ground:

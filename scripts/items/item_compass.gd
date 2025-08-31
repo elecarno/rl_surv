@@ -1,6 +1,4 @@
-extends MeshInstance3D
-
-@export var on_ground: bool = false
+extends ItemFunction
 
 func _process(delta: float) -> void:
 	var target_rot: Vector3

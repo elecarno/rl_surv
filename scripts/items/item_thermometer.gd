@@ -1,4 +1,4 @@
-extends MeshInstance3D
+extends ItemFunction
 
 # scale:
 # 0 = -20C

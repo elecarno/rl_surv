@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=4 uid="uid://brrjkso5tn5px"]
+[gd_scene load_steps=59 format=4 uid="uid://brrjkso5tn5px"]
 
 [ext_resource type="Script" path="res://scripts/player/player_controller.gd" id="1_sr7s8"]
 [ext_resource type="Resource" uid="uid://cps3d70mra73o" path="res://res/backpack_default.tres" id="2_1g4a2"]
@@ -6,15 +6,16 @@
 [ext_resource type="Material" uid="uid://d3ce3108rma4w" path="res://mats/black.tres" id="3_cie65"]
 [ext_resource type="Script" path="res://scripts/player/item_model_handler.gd" id="3_fcy5b"]
 [ext_resource type="AudioStream" uid="uid://cnj7p3mys5vr4" path="res://sound/footsteps/Footsteps_Leaves_Walk_01.wav" id="3_pybh6"]
+[ext_resource type="Script" path="res://scripts/items/item_tent.gd" id="4_0k1fr"]
 [ext_resource type="AudioStream" uid="uid://tpebc2yu8rsb" path="res://sound/footsteps/Footsteps_Leaves_Walk_02.wav" id="4_pqs5o"]
-[ext_resource type="Script" path="res://scripts/items/food.gd" id="4_qjbx5"]
-[ext_resource type="Script" path="res://scripts/items/compass.gd" id="5_aw10b"]
+[ext_resource type="Script" path="res://scripts/items/item_food.gd" id="4_qjbx5"]
+[ext_resource type="Script" path="res://scripts/items/item_compass.gd" id="5_aw10b"]
 [ext_resource type="AudioStream" uid="uid://wyimqwi6l6na" path="res://sound/footsteps/Footsteps_Leaves_Walk_03.wav" id="5_mv6ti"]
 [ext_resource type="AudioStream" uid="uid://c4bllywk436es" path="res://sound/footsteps/Footsteps_Leaves_Walk_04.wav" id="6_kimx5"]
 [ext_resource type="Texture2D" uid="uid://cbbngwqt6aunp" path="res://models/map1.jpg" id="6_ufg44"]
 [ext_resource type="AudioStream" uid="uid://cwj500ktbypon" path="res://sound/footsteps/Footsteps_Leaves_Walk_05.wav" id="7_f1k5g"]
-[ext_resource type="Script" path="res://scripts/items/map.gd" id="7_jkj04"]
-[ext_resource type="Script" path="res://scripts/items/thermometer.gd" id="8_cjpkn"]
+[ext_resource type="Script" path="res://scripts/items/item_map.gd" id="7_jkj04"]
+[ext_resource type="Script" path="res://scripts/items/item_thermometer.gd" id="8_cjpkn"]
 [ext_resource type="AudioStream" uid="uid://dnobrac0eqpc2" path="res://sound/footsteps/Footsteps_Leaves_Walk_06.wav" id="8_tk7u8"]
 [ext_resource type="AudioStream" uid="uid://dlonvt10hk5om" path="res://sound/footsteps/Footsteps_Leaves_Run_01.wav" id="9_vb5s1"]
 [ext_resource type="AudioStream" uid="uid://dolpdp6yhcx7q" path="res://sound/footsteps/Footsteps_Leaves_Run_02.wav" id="10_k56ky"]
@@ -37,6 +38,9 @@ height = 1.8
 
 [sub_resource type="BoxMesh" id="BoxMesh_d7qit"]
 size = Vector3(0.1, 0.1, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_kpgi0"]
+size = Vector3(0.15, 0.1, 0.1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_tfv36"]
 size = Vector3(0.1, 0.35, 0.1)
@@ -324,6 +328,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.255, -0.24, -0.4)
 visible = false
 mesh = SubResource("BoxMesh_d7qit")
 skeleton = NodePath("../../../..")
+
+[node name="tent" type="MeshInstance3D" parent="head/cam/items"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.255, -0.24, -0.4)
+visible = false
+mesh = SubResource("BoxMesh_kpgi0")
+skeleton = NodePath("../../../..")
+script = ExtResource("4_0k1fr")
 
 [node name="cheese" type="MeshInstance3D" parent="head/cam/items"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.255, -0.24, -0.4)

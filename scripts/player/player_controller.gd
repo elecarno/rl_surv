@@ -181,6 +181,7 @@ func handle_interaction(delta):
 	else:
 		mode_interact = false
 		ray_large.enabled = true
+		
 		ray_small.enabled = false
 		reticle.visible = false
 	
@@ -208,6 +209,10 @@ func handle_interaction(delta):
 				if ray_col.type == "backpack":
 					ray_col.use_backpack()
 					placed_backpack = false
+					lab_prompt.visible = false
+					
+				if ray_col.type == "tent":
+					ray_col.use_tent()
 					lab_prompt.visible = false
 					
 	elif ray_large.enabled and !ray_large.is_colliding():
@@ -248,6 +253,10 @@ func handle_interaction(delta):
 					else:
 						lab_prompt.text = "Cannot place " + holding.item.display_name + " into " + ray_col.section.capitalize()
 						
+			if ray_col.type == "unpack":
+				if Input.is_action_just_pressed("act_interact"):
+					ray_col.toggle_pack()
+				
 		# handle pickup items
 		if ray_col is Pickup:
 			lab_prompt.visible = true
@@ -278,7 +287,7 @@ func handle_interaction(delta):
 		else:
 			lab_holding.text = "Holding " + holding.item.display_name
 			
-		if holding.contents <= 0:
+		if holding.contents <= 0 and holding.item.MAX_CONTENTS > 0:
 				lab_holding.text += " (Empty)"
 			
 		lab_holding.visible = true

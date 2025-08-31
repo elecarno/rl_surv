@@ -12,6 +12,7 @@ func _ready() -> void:
 		for i in children.size():
 			if $items.get_child(i).name != res.item.type:
 				$items.get_child(i).queue_free()
+		$items.get_node(res.item.type).on_ground = true
 		$items.get_node(res.item.type).visible = true
 	else:
 		$items/default.visible = true
