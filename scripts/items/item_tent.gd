@@ -8,12 +8,13 @@ func _process(delta: float) -> void:
 			var ray_col = $"../../ray_large".get_collider()
 			var ray_pos = $"../../ray_large".get_collision_point()
 			
-			if ray_col.is_in_group("ground"):
-				var tent_inst = tent.instantiate()
-				tent_inst.position = ray_pos
-				tent_inst.res = $"../../../..".holding
-				tent_inst.rotation = $"../../..".rotation
-				$"../../../..".get_parent().add_child(tent_inst)
-				
-				$"../../../..".holding = null
-				$"../../../..".is_holding = false
+			if ray_col != null:
+				if ray_col.is_in_group("ground"):
+					var tent_inst = tent.instantiate()
+					tent_inst.position = ray_pos
+					tent_inst.res = $"../../../..".holding
+					tent_inst.rotation = $"../../..".rotation
+					$"../../../..".get_parent().add_child(tent_inst)
+					
+					$"../../../..".holding = null
+					$"../../../..".is_holding = false

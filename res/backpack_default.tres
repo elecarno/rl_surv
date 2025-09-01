@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="Backpack" load_steps=21 format=3 uid="uid://cps3d70mra73o"]
+[gd_resource type="Resource" script_class="Backpack" load_steps=23 format=3 uid="uid://cps3d70mra73o"]
 
 [ext_resource type="Resource" uid="uid://d28ggwk2k60be" path="res://res/items/water_bottle.tres" id="2_b2qyv"]
 [ext_resource type="Resource" uid="uid://dt4sgw17iq3qg" path="res://res/items/tent.tres" id="2_gxxea"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://scripts/res/res_backpack.gd" id="4_yuw55"]
 [ext_resource type="Resource" uid="uid://c7d5n28w43qmv" path="res://res/items/cheese.tres" id="5_1sy20"]
 [ext_resource type="Resource" uid="uid://bhi2s22y20u4n" path="res://res/items/tent_pegs.tres" id="5_jsmya"]
+[ext_resource type="Resource" uid="uid://8tidsgk6ynvp" path="res://res/items/sleeping_bag.tres" id="5_onnbm"]
 [ext_resource type="Resource" uid="uid://d2hcrc6yfaqdw" path="res://res/items/map.tres" id="5_r2cgs"]
 [ext_resource type="Resource" uid="uid://ccf44mtc676un" path="res://res/items/sleeping_mat.tres" id="6_44hlh"]
 [ext_resource type="Resource" uid="uid://4x51r71w0rvw" path="res://res/items/compass.tres" id="6_p2dr5"]
@@ -28,13 +29,19 @@ contents = 0
 script = ExtResource("2_vsn6i")
 item = ExtResource("4_wyiy0")
 is_wet = false
-contents = 5
+contents = 3
 
-[sub_resource type="Resource" id="Resource_ia2jf"]
+[sub_resource type="Resource" id="Resource_gj4ts"]
 script = ExtResource("2_vsn6i")
 item = ExtResource("5_jsmya")
 is_wet = false
 contents = 16
+
+[sub_resource type="Resource" id="Resource_ia2jf"]
+script = ExtResource("2_vsn6i")
+item = ExtResource("5_onnbm")
+is_wet = false
+contents = 0
 
 [sub_resource type="Resource" id="Resource_l07qw"]
 script = ExtResource("2_vsn6i")
@@ -68,7 +75,7 @@ contents = 0
 
 [resource]
 script = ExtResource("4_yuw55")
-main = Array[ExtResource("2_vsn6i")]([SubResource("Resource_egt5o"), SubResource("Resource_cmcsx"), SubResource("Resource_ia2jf"), SubResource("Resource_ia2jf")])
+main = Array[ExtResource("2_vsn6i")]([SubResource("Resource_egt5o"), SubResource("Resource_cmcsx"), SubResource("Resource_gj4ts"), SubResource("Resource_ia2jf")])
 top = Array[ExtResource("2_vsn6i")]([SubResource("Resource_b3qvy"), SubResource("Resource_2bq4y")])
 top_strap = Array[ExtResource("2_vsn6i")]([SubResource("Resource_wd5ee")])
 right_pocket = Array[ExtResource("2_vsn6i")]([SubResource("Resource_l07qw")])

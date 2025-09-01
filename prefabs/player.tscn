@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=4 uid="uid://brrjkso5tn5px"]
+[gd_scene load_steps=61 format=4 uid="uid://brrjkso5tn5px"]
 
 [ext_resource type="Script" path="res://scripts/player/player_controller.gd" id="1_sr7s8"]
 [ext_resource type="Resource" uid="uid://cps3d70mra73o" path="res://res/backpack_default.tres" id="2_1g4a2"]
@@ -7,8 +7,10 @@
 [ext_resource type="Script" path="res://scripts/player/item_model_handler.gd" id="3_fcy5b"]
 [ext_resource type="AudioStream" uid="uid://cnj7p3mys5vr4" path="res://sound/footsteps/Footsteps_Leaves_Walk_01.wav" id="3_pybh6"]
 [ext_resource type="Script" path="res://scripts/items/item_tent.gd" id="4_0k1fr"]
+[ext_resource type="Script" path="res://scripts/items/item_tent_poles.gd" id="4_opjkk"]
 [ext_resource type="AudioStream" uid="uid://tpebc2yu8rsb" path="res://sound/footsteps/Footsteps_Leaves_Walk_02.wav" id="4_pqs5o"]
 [ext_resource type="Script" path="res://scripts/items/item_food.gd" id="4_qjbx5"]
+[ext_resource type="Script" path="res://scripts/items/item_tent_pegs.gd" id="5_21m4a"]
 [ext_resource type="Script" path="res://scripts/items/item_compass.gd" id="5_aw10b"]
 [ext_resource type="AudioStream" uid="uid://wyimqwi6l6na" path="res://sound/footsteps/Footsteps_Leaves_Walk_03.wav" id="5_mv6ti"]
 [ext_resource type="AudioStream" uid="uid://c4bllywk436es" path="res://sound/footsteps/Footsteps_Leaves_Walk_04.wav" id="6_kimx5"]
@@ -328,6 +330,20 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.255, -0.24, -0.4)
 visible = false
 mesh = SubResource("BoxMesh_d7qit")
 skeleton = NodePath("../../../..")
+
+[node name="tent_poles" type="MeshInstance3D" parent="head/cam/items"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.255, -0.24, -0.4)
+visible = false
+mesh = SubResource("BoxMesh_d7qit")
+skeleton = NodePath("../../../..")
+script = ExtResource("4_opjkk")
+
+[node name="tent_pegs" type="MeshInstance3D" parent="head/cam/items"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.255, -0.24, -0.4)
+visible = false
+mesh = SubResource("BoxMesh_d7qit")
+skeleton = NodePath("../../../..")
+script = ExtResource("5_21m4a")
 
 [node name="tent" type="MeshInstance3D" parent="head/cam/items"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.255, -0.24, -0.4)

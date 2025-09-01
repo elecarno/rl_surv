@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://cddtt7vl5dr26"]
+[gd_scene load_steps=14 format=3 uid="uid://cddtt7vl5dr26"]
 
 [ext_resource type="Script" path="res://scripts/interactables/tent_object.gd" id="1_2i1g5"]
 [ext_resource type="Script" path="res://scripts/interactables/tent_unpack.gd" id="2_2sndu"]
 [ext_resource type="Script" path="res://scripts/interactables/tent_pole.gd" id="3_kpvpa"]
+[ext_resource type="Script" path="res://scripts/interactables/tent_peg.gd" id="4_vhsje"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_wre8v"]
 
@@ -15,10 +16,19 @@ size = Vector3(0.15, 0.15, 0.15)
 size = Vector3(0.15, 0.15, 0.15)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_xmnkw"]
-size = Vector3(0.7, 0.15, 0.15)
+size = Vector3(0.15, 0.15, 0.15)
 
 [sub_resource type="BoxMesh" id="BoxMesh_6rjvg"]
 size = Vector3(0.7, 0.15, 0.15)
+
+[sub_resource type="BoxMesh" id="BoxMesh_yua7k"]
+size = Vector3(0.9, 0.1, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_4d3eg"]
+size = Vector3(0.15, 0.15, 0.15)
+
+[sub_resource type="BoxMesh" id="BoxMesh_c4k06"]
+size = Vector3(0.07, 0.5, 0.07)
 
 [node name="tent" type="StaticBody3D"]
 script = ExtResource("1_2i1g5")
@@ -60,6 +70,10 @@ shape = SubResource("BoxShape3D_xmnkw")
 [node name="mesh" type="MeshInstance3D" parent="interface/pole1"]
 mesh = SubResource("BoxMesh_6rjvg")
 
+[node name="pole" type="MeshInstance3D" parent="interface/pole1"]
+visible = false
+mesh = SubResource("BoxMesh_yua7k")
+
 [node name="pole2" type="Area3D" parent="interface"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.075, -0.255)
 script = ExtResource("3_kpvpa")
@@ -72,6 +86,10 @@ shape = SubResource("BoxShape3D_xmnkw")
 [node name="mesh" type="MeshInstance3D" parent="interface/pole2"]
 mesh = SubResource("BoxMesh_6rjvg")
 
+[node name="pole" type="MeshInstance3D" parent="interface/pole2"]
+visible = false
+mesh = SubResource("BoxMesh_yua7k")
+
 [node name="pole3" type="Area3D" parent="interface"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.075, -0.755)
 script = ExtResource("3_kpvpa")
@@ -83,3 +101,135 @@ shape = SubResource("BoxShape3D_xmnkw")
 
 [node name="mesh" type="MeshInstance3D" parent="interface/pole3"]
 mesh = SubResource("BoxMesh_6rjvg")
+
+[node name="pole" type="MeshInstance3D" parent="interface/pole3"]
+visible = false
+mesh = SubResource("BoxMesh_yua7k")
+
+[node name="peg1" type="Area3D" parent="interface"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 0.075, 0.245)
+script = ExtResource("4_vhsje")
+prompt_message = "Add Tent Peg"
+type = "tent_peg"
+
+[node name="col" type="CollisionShape3D" parent="interface/peg1"]
+shape = SubResource("BoxShape3D_xmnkw")
+
+[node name="mesh" type="MeshInstance3D" parent="interface/peg1"]
+mesh = SubResource("BoxMesh_4d3eg")
+
+[node name="peg" type="MeshInstance3D" parent="interface/peg1"]
+visible = false
+mesh = SubResource("BoxMesh_c4k06")
+
+[node name="peg7" type="Area3D" parent="interface"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.075, 0.845)
+script = ExtResource("4_vhsje")
+prompt_message = "Add Tent Peg"
+type = "tent_peg"
+
+[node name="col" type="CollisionShape3D" parent="interface/peg7"]
+shape = SubResource("BoxShape3D_xmnkw")
+
+[node name="mesh" type="MeshInstance3D" parent="interface/peg7"]
+mesh = SubResource("BoxMesh_4d3eg")
+
+[node name="peg" type="MeshInstance3D" parent="interface/peg7"]
+visible = false
+mesh = SubResource("BoxMesh_c4k06")
+
+[node name="peg8" type="Area3D" parent="interface"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.075, -1.155)
+script = ExtResource("4_vhsje")
+prompt_message = "Add Tent Peg"
+type = "tent_peg"
+
+[node name="col" type="CollisionShape3D" parent="interface/peg8"]
+shape = SubResource("BoxShape3D_xmnkw")
+
+[node name="mesh" type="MeshInstance3D" parent="interface/peg8"]
+mesh = SubResource("BoxMesh_4d3eg")
+
+[node name="peg" type="MeshInstance3D" parent="interface/peg8"]
+visible = false
+mesh = SubResource("BoxMesh_c4k06")
+
+[node name="peg2" type="Area3D" parent="interface"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 0.075, -0.255)
+script = ExtResource("4_vhsje")
+prompt_message = "Add Tent Peg"
+type = "tent_peg"
+
+[node name="col" type="CollisionShape3D" parent="interface/peg2"]
+shape = SubResource("BoxShape3D_xmnkw")
+
+[node name="mesh" type="MeshInstance3D" parent="interface/peg2"]
+mesh = SubResource("BoxMesh_4d3eg")
+
+[node name="peg" type="MeshInstance3D" parent="interface/peg2"]
+visible = false
+mesh = SubResource("BoxMesh_c4k06")
+
+[node name="peg3" type="Area3D" parent="interface"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 0.075, -0.755)
+script = ExtResource("4_vhsje")
+prompt_message = "Add Tent Peg"
+type = "tent_peg"
+
+[node name="col" type="CollisionShape3D" parent="interface/peg3"]
+shape = SubResource("BoxShape3D_xmnkw")
+
+[node name="mesh" type="MeshInstance3D" parent="interface/peg3"]
+mesh = SubResource("BoxMesh_4d3eg")
+
+[node name="peg" type="MeshInstance3D" parent="interface/peg3"]
+visible = false
+mesh = SubResource("BoxMesh_c4k06")
+
+[node name="peg4" type="Area3D" parent="interface"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 0.075, 0.245)
+script = ExtResource("4_vhsje")
+prompt_message = "Add Tent Peg"
+type = "tent_peg"
+
+[node name="col" type="CollisionShape3D" parent="interface/peg4"]
+shape = SubResource("BoxShape3D_xmnkw")
+
+[node name="mesh" type="MeshInstance3D" parent="interface/peg4"]
+mesh = SubResource("BoxMesh_4d3eg")
+
+[node name="peg" type="MeshInstance3D" parent="interface/peg4"]
+visible = false
+mesh = SubResource("BoxMesh_c4k06")
+
+[node name="peg5" type="Area3D" parent="interface"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 0.075, -0.255)
+script = ExtResource("4_vhsje")
+prompt_message = "Add Tent Peg"
+type = "tent_peg"
+
+[node name="col" type="CollisionShape3D" parent="interface/peg5"]
+shape = SubResource("BoxShape3D_xmnkw")
+
+[node name="mesh" type="MeshInstance3D" parent="interface/peg5"]
+mesh = SubResource("BoxMesh_4d3eg")
+
+[node name="peg" type="MeshInstance3D" parent="interface/peg5"]
+visible = false
+mesh = SubResource("BoxMesh_c4k06")
+
+[node name="peg6" type="Area3D" parent="interface"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 0.075, -0.755)
+script = ExtResource("4_vhsje")
+prompt_message = "Add Tent Peg"
+type = "tent_peg"
+
+[node name="col" type="CollisionShape3D" parent="interface/peg6"]
+shape = SubResource("BoxShape3D_xmnkw")
+
+[node name="mesh" type="MeshInstance3D" parent="interface/peg6"]
+mesh = SubResource("BoxMesh_4d3eg")
+
+[node name="peg" type="MeshInstance3D" parent="interface/peg6"]
+visible = false
+mesh = SubResource("BoxMesh_c4k06")
