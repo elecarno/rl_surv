@@ -9,7 +9,7 @@ func _process(_delta: float) -> void:
 			
 			if ray_col is SmallInteract and ray_col.type == "tent_peg":
 				ray_col.toggle_peg()
-				if ray_col.has_peg:
+				if ray_col.has_pole:
 					print("removed peg from item")
 					$"../../../..".holding.contents -= 1
 				else:

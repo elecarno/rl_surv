@@ -3,9 +3,13 @@ extends SmallInteract
 var is_packed: bool = true
 
 func _process(delta: float) -> void:
-	if ($"../interface/pole1".has_pole or 
-		$"../interface/pole2".has_pole or
-		$"../interface/pole3".has_pole ):
+	var packable: bool = true
+	
+	for i in $"../interface".get_children():
+		if i.has_pole:
+			packable = false
+	
+	if !packable:
 			self.visible = false
 			$col.disabled = false
 	else:
@@ -31,5 +35,4 @@ func toggle_pack():
 func toggle_interface(state: bool):
 	$"../interface/pole1/col".disabled = !state
 	$"../interface/pole2/col".disabled = !state
-	$"../interface/pole3/col".disabled = !state
 	

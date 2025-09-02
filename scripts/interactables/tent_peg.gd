@@ -1,11 +1,11 @@
 extends SmallInteract
 
-var has_peg: bool = false
+var has_pole: bool = false
 
 func toggle_peg():
-	has_peg = !has_peg
+	has_pole = !has_pole
 	
-	if has_peg:
+	if has_pole:
 		$peg.visible = true
 		print("added peg to tent")
 		prompt_message = "Remove Tent Peg"

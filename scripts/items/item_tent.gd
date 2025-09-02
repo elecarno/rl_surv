@@ -7,13 +7,16 @@ func _process(delta: float) -> void:
 		if $"../../../..".is_holding and $"../../../..".holding.item.type == self.name:
 			var ray_col = $"../../ray_large".get_collider()
 			var ray_pos = $"../../ray_large".get_collision_point()
+			var ray_normal = $"../../ray_large".get_collision_normal()
 			
 			if ray_col != null:
 				if ray_col.is_in_group("ground"):
 					var tent_inst = tent.instantiate()
 					tent_inst.position = ray_pos
 					tent_inst.res = $"../../../..".holding
-					tent_inst.rotation = $"../../..".rotation
+					#tent_inst.rotation = $"../../..".rotation
+					tent_inst.rotation = ray_normal
+					print(ray_normal)
 					$"../../../..".get_parent().add_child(tent_inst)
 					
 					$"../../../..".holding = null
